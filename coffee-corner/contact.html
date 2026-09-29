@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact & Visit Us | Coffee Corner</title>
+  <meta name="description" content="Get in touch with the Coffee Corner team, view cafe opening hours, telephone numbers, and interactive directions.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- SITE HEADER & NAVIGATION -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-icon"><i class="fas fa-coffee"></i></div>
+        <span>Coffee <span class="accent">Corner</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="feedback.html">Reviews</a></li>
+          <li><a href="contact.html" class="active">Contact</a></li>
+          <li><a href="admin.html" style="color: var(--caramel);"><i class="fas fa-lock" style="font-size:0.75rem; margin-right:4px;"></i>Admin</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="nav-user-btn" class="nav-action-btn" onclick="handleNavUserClick()" title="My Account">
+          <i class="fas fa-user"></i>
+        </button>
+        <button class="nav-action-btn" onclick="openCartDrawer()" title="View Cart">
+          <i class="fas fa-shopping-bag"></i>
+          <span id="cart-badge" class="badge-counter" style="display:none;">0</span>
+        </button>
+        <button class="mobile-menu-toggle" aria-label="Toggle navigation menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 7.5rem;">
+    <!-- CONTACT HERO -->
+    <section class="container" style="text-align: center; margin-bottom: 3.5rem;">
+      <div class="section-tag"><i class="fas fa-location-dot"></i> Seattle Flagship Location</div>
+      <h1 class="section-title">Visit & Connect with Coffee Corner</h1>
+      <p class="section-subtitle">
+        Have questions regarding our single-origin bean roasts, private cuppings, or catering orders? Our team is always here to help.
+      </p>
+    </section>
+
+    <!-- CONTACT GRID: FORM + LOCATION DETAILS -->
+    <section class="container" style="margin-bottom: 6rem;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem;">
+        
+        <!-- Contact Form Card -->
+        <div class="glass-panel" style="padding: 2.5rem;">
+          <h3 style="font-size: 1.6rem; margin-bottom: 0.5rem;"><i class="fas fa-paper-plane text-caramel"></i> Send Us a Message</h3>
+          <p style="font-size: 0.92rem; color: var(--cream-muted); margin-bottom: 2rem;">
+            Our cafe team responds promptly to all customer inquiries.
+          </p>
+
+          <form id="contact-form" onsubmit="handleContactSubmit(event)">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input type="text" id="contact-name" required class="form-control" placeholder="Sarah Jenkins">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input type="email" id="contact-email" required class="form-control" placeholder="name@domain.com">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <select id="contact-subject" class="form-control">
+                <option value="General Inquiry">General Coffee & Menu Inquiry</option>
+                <option value="Wholesale & Catering">Office Catering & Event Bar</option>
+                <option value="Private Tasting Event">Private Cupping & Barista Workshop</option>
+                <option value="Order Support">Order & Delivery Assistance</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Your Message *</label>
+              <textarea id="contact-message" required rows="5" class="form-control" placeholder="How can our baristas make your day brighter?"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+              <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+          </form>
+        </div>
+
+        <!-- Shop Info & Simulated Interactive Map -->
+        <div style="display: flex; flex-direction: column; gap: 2rem;">
+          <div class="glass-panel" style="padding: 2.2rem;">
+            <h3 style="font-size: 1.4rem; margin-bottom: 1.4rem;"><i class="fas fa-clock text-caramel"></i> Location & Contact</h3>
+            
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.4rem;">
+              <div style="width:42px; height:42px; border-radius:50%; background:rgba(212,155,106,0.15); display:flex; align-items:center; justify-content:center; color:var(--caramel); flex-shrink:0;">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div>
+                <strong style="color:var(--cream); display:block; margin-bottom:0.2rem;">Coffee Corner Flagship</strong>
+                <p style="font-size:0.9rem; line-height:1.5;">108 Pike Street, Historic Market District, Seattle, WA 98101</p>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.4rem;">
+              <div style="width:42px; height:42px; border-radius:50%; background:rgba(212,155,106,0.15); display:flex; align-items:center; justify-content:center; color:var(--caramel); flex-shrink:0;">
+                <i class="fas fa-phone-alt"></i>
+              </div>
+              <div>
+                <strong style="color:var(--cream); display:block; margin-bottom:0.2rem;">Phone & Order Hotline</strong>
+                <p style="font-size:0.9rem;">+1 (555) 349-8820 • Mobile orders: Ext. 1</p>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+              <div style="width:42px; height:42px; border-radius:50%; background:rgba(212,155,106,0.15); display:flex; align-items:center; justify-content:center; color:var(--caramel); flex-shrink:0;">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div>
+                <strong style="color:var(--cream); display:block; margin-bottom:0.2rem;">Email Inquiries</strong>
+                <p style="font-size:0.9rem;">hello@coffeecorner.com</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Simulated Map Card -->
+          <div class="glass-panel" style="padding: 1.8rem; flex-grow: 1;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h4 style="font-size: 1.15rem; margin: 0;"><i class="fas fa-map text-caramel"></i> Cafe Locations</h4>
+              <span style="font-size: 0.78rem; color: var(--gold); background: rgba(229,185,103,0.15); padding: 0.2rem 0.6rem; border-radius: 9999px;">Open Today</span>
+            </div>
+
+            <div style="position: relative; width: 100%; height: 210px; border-radius: var(--radius-md); overflow: hidden; background: #190e08; border: 1px solid rgba(212,155,106,0.2); display: flex; align-items: center; justify-content: center;">
+              <div style="position:absolute; width:100%; height:100%; background-image: linear-gradient(rgba(212,155,106,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(212,155,106,0.08) 1px, transparent 1px); background-size: 30px 30px;"></div>
+              
+              <!-- Location Pin 1 -->
+              <div style="position: absolute; top: 40%; left: 45%; text-align: center; cursor: pointer;" onclick="showToast('Selected: Coffee Corner Pike St Flagship')">
+                <i class="fas fa-map-pin text-caramel" style="font-size: 2rem; filter: drop-shadow(0 0 10px var(--caramel)); animation: floatSubtle 2s infinite;"></i>
+                <div style="background: rgba(14,7,4,0.92); padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid var(--caramel); font-size: 0.75rem; font-weight: 700; white-space: nowrap; margin-top: 4px;">Pike St Flagship</div>
+              </div>
+
+              <!-- Location Pin 2 -->
+              <div style="position: absolute; top: 60%; left: 75%; text-align: center; cursor: pointer;" onclick="showToast('Selected: Coffee Corner Downtown Lab')">
+                <i class="fas fa-map-pin text-gold" style="font-size: 1.5rem;"></i>
+                <div style="background: rgba(14,7,4,0.92); padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid var(--gold); font-size: 0.7rem; white-space: nowrap; margin-top: 4px;">Downtown Lab</div>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.2rem;">
+              <span style="font-size:0.85rem; color:var(--cream-muted);"><i class="fas fa-car" style="margin-right:4px;"></i> Free 1-hour parking available</span>
+              <button class="btn btn-secondary btn-sm" onclick="showToast('Directions sent to navigation!')">
+                <i class="fas fa-directions"></i> Get Directions
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FAQ ACCORDION -->
+    <section id="faq" class="container" style="margin-bottom: 6rem;">
+      <div style="text-align: center; margin-bottom: 3.5rem;">
+        <div class="section-tag"><i class="fas fa-circle-question"></i> Questions & Answers</div>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+
+      <div style="max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+        <div class="glass-panel" style="padding: 1.4rem; cursor: pointer;" onclick="toggleFaq(this)">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h4 style="font-size: 1.05rem; margin: 0;">How soon after roasting are your whole beans shipped?</h4>
+            <i class="fas fa-chevron-down text-caramel faq-icon" style="transition: transform 0.25s ease;"></i>
+          </div>
+          <div class="faq-content" style="display: none; padding-top: 1rem; color: var(--cream-muted); font-size: 0.92rem; line-height: 1.6;">
+            We roast in small batches 4 mornings each week. Online orders are packaged within 24 hours of roasting and shipped in one-way degassing valve bags to guarantee peak freshness.
+          </div>
+        </div>
+
+        <div class="glass-panel" style="padding: 1.4rem; cursor: pointer;" onclick="toggleFaq(this)">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h4 style="font-size: 1.05rem; margin: 0;">Do you cater private office events, weddings, or cuppings?</h4>
+            <i class="fas fa-chevron-down text-caramel faq-icon" style="transition: transform 0.25s ease;"></i>
+          </div>
+          <div class="faq-content" style="display: none; padding-top: 1rem; color: var(--cream-muted); font-size: 0.92rem; line-height: 1.6;">
+            Yes! We operate a bespoke mobile espresso bar complete with commercial dual-boiler machines and certified baristas for up to 300 guests. Contact us via the form above for bookings.
+          </div>
+        </div>
+
+        <div class="glass-panel" style="padding: 1.4rem; cursor: pointer;" onclick="toggleFaq(this)">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h4 style="font-size: 1.05rem; margin: 0;">What milk alternatives do you offer for espresso drinks?</h4>
+            <i class="fas fa-chevron-down text-caramel faq-icon" style="transition: transform 0.25s ease;"></i>
+          </div>
+          <div class="faq-content" style="display: none; padding-top: 1rem; color: var(--cream-muted); font-size: 0.92rem; line-height: 1.6;">
+            We stock barista-grade Oatly Oat Milk, Organic Almond Milk, Coconut Milk, and Soy Milk. All steam smoothly into velvety microfoam ideal for latte art.
+          </div>
+        </div>
+
+        <div class="glass-panel" style="padding: 1.4rem; cursor: pointer;" onclick="toggleFaq(this)">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h4 style="font-size: 1.05rem; margin: 0;">How does the Coffee Corner Bean Rewards Program work?</h4>
+            <i class="fas fa-chevron-down text-caramel faq-icon" style="transition: transform 0.25s ease;"></i>
+          </div>
+          <div class="faq-content" style="display: none; padding-top: 1rem; color: var(--cream-muted); font-size: 0.92rem; line-height: 1.6;">
+            Every dollar spent earns you 10 Bean points. When you register, you receive 100 bonus beans! Beans can be redeemed in your dashboard for free specialty drinks, pastries, or whole-bean bags.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand-logo">
+          <div class="logo-icon"><i class="fas fa-coffee"></i></div>
+          <span>Coffee <span class="accent">Corner</span></span>
+        </a>
+        <p>Your daily haven for specialty roasted coffees, slow-steeped cold brews, artisan teas, and artisanal baked treats.</p>
+      </div>
+      <div class="footer-column">
+        <h4>Navigation</h4>
+        <ul class="footer-links-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Products & Menu</a></li>
+          <li><a href="about.html">About Coffee Corner</a></li>
+          <li><a href="feedback.html">Customer Reviews</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Customer Care</h4>
+        <ul class="footer-links-list">
+          <li><a href="orders.html">Track My Order</a></li>
+          <li><a href="cart.html">View Cart</a></li>
+          <li><a href="contact.html">Store Location</a></li>
+          <li><a href="admin.html">Staff Portal</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Opening Hours</h4>
+        <p style="font-size:0.92rem; margin-bottom:0.5rem;">Mon - Fri: 06:00 AM – 08:00 PM</p>
+        <p style="font-size:0.92rem; margin-bottom:0.5rem;">Sat - Sun: 07:00 AM – 09:00 PM</p>
+        <p style="font-size:0.85rem; color:var(--caramel);"><i class="fas fa-map-marker-alt"></i> 108 Pike Street, Seattle, WA</p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Coffee Corner. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- GLOBAL SLIDE-OVER CART DRAWER -->
+  <div id="cart-drawer-overlay" class="cart-drawer-overlay">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <h3 style="font-size: 1.25rem; font-family: var(--font-serif);"><i class="fas fa-shopping-bag text-caramel"></i> Your Order</h3>
+        <button class="modal-close-btn" onclick="closeCartDrawer()"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="cart-drawer-items" class="cart-items-container"></div>
+      <div class="cart-footer">
+        <div class="cart-summary-line total">
+          <span>Estimated Total</span>
+          <span id="cart-drawer-total" class="text-gold">$0.00</span>
+        </div>
+        <div style="display:flex; gap:0.8rem;">
+          <a href="cart.html" class="btn btn-secondary" style="flex:1;">Full Cart</a>
+          <button class="btn btn-primary" style="flex:1.4;" onclick="proceedToCheckout()">Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('contact-name').value;
+      showToast(`Thank you, ${name}! Your message has been received by Coffee Corner.`);
+      e.target.reset();
+    }
+
+    function toggleFaq(el) {
+      const content = el.querySelector('.faq-content');
+      const icon = el.querySelector('.faq-icon');
+      if (content.style.display === 'block') {
+        content.style.display = 'none';
+        icon.style.transform = 'rotate(0deg)';
+      } else {
+        content.style.display = 'block';
+        icon.style.transform = 'rotate(180deg)';
+      }
+    }
+  </script>
+</body>
+</html>

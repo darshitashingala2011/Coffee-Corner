@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Reviews & Feedback | Coffee Corner</title>
+  <meta name="description" content="Read reviews from coffee connoisseurs and share your experience with our roasts, baristas, and artisanal atmosphere.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- SITE HEADER & NAVIGATION -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-icon"><i class="fas fa-coffee"></i></div>
+        <span>Coffee <span class="accent">Corner</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="feedback.html" class="active">Reviews</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="admin.html" style="color: var(--caramel);"><i class="fas fa-lock" style="font-size:0.75rem; margin-right:4px;"></i>Admin</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="nav-user-btn" class="nav-action-btn" onclick="handleNavUserClick()" title="My Account">
+          <i class="fas fa-user"></i>
+        </button>
+        <button class="nav-action-btn" onclick="openCartDrawer()" title="View Cart">
+          <i class="fas fa-shopping-bag"></i>
+          <span id="cart-badge" class="badge-counter" style="display:none;">0</span>
+        </button>
+        <button class="mobile-menu-toggle" aria-label="Toggle navigation menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 7.5rem; min-height: 80vh;">
+    <div class="container" style="margin-bottom: 5rem;">
+      <div style="text-align: center; margin-bottom: 3.5rem;">
+        <div class="section-tag"><i class="fas fa-star"></i> Verified Reviews</div>
+        <h1 class="section-title">Connoisseur Feedback & Ratings</h1>
+        <p class="section-subtitle">Real experiences from our community of daily coffee lovers and espresso purists.</p>
+      </div>
+
+      <!-- RATINGS SUMMARY OVERVIEW -->
+      <div class="glass-panel" style="padding: 2.5rem; margin-bottom: 3.5rem; border-color: rgba(212,155,106,0.35);">
+        <div style="display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 2rem; align-items: center;">
+          <!-- Overall Rating -->
+          <div style="text-align: center; border-right: 1px solid rgba(212,155,106,0.18);">
+            <div style="font-size: 3.8rem; font-family: var(--font-serif); font-weight: 800; color: var(--gold); line-height: 1;">4.9</div>
+            <div style="color: var(--gold); font-size: 1.2rem; margin: 0.5rem 0;">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <span style="font-size: 0.88rem; color: var(--cream-muted);">Based on 480+ verified reviews</span>
+          </div>
+
+          <!-- Star Breakdown bars -->
+          <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+            <div style="display: flex; align-items: center; gap: 0.8rem; font-size: 0.85rem;">
+              <span style="min-width: 45px;">5 Stars</span>
+              <div style="flex: 1; height: 7px; background: rgba(255,255,255,0.08); border-radius: 9999px; overflow: hidden;">
+                <div style="background: var(--gold); width: 92%; height: 100%;"></div>
+              </div>
+              <span style="color: var(--cream-muted); min-width: 35px;">92%</span>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 0.8rem; font-size: 0.85rem;">
+              <span style="min-width: 45px;">4 Stars</span>
+              <div style="flex: 1; height: 7px; background: rgba(255,255,255,0.08); border-radius: 9999px; overflow: hidden;">
+                <div style="background: var(--gold); width: 6%; height: 100%;"></div>
+              </div>
+              <span style="color: var(--cream-muted); min-width: 35px;">6%</span>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 0.8rem; font-size: 0.85rem;">
+              <span style="min-width: 45px;">3 Stars</span>
+              <div style="flex: 1; height: 7px; background: rgba(255,255,255,0.08); border-radius: 9999px; overflow: hidden;">
+                <div style="background: var(--gold); width: 2%; height: 100%;"></div>
+              </div>
+              <span style="color: var(--cream-muted); min-width: 35px;">2%</span>
+            </div>
+          </div>
+
+          <!-- CTA to Write Review -->
+          <div style="text-align: center;">
+            <h4 style="font-size: 1.15rem; margin-bottom: 0.6rem;">Brewed with us recently?</h4>
+            <p style="font-size: 0.85rem; color: var(--cream-muted); margin-bottom: 1.2rem;">Share your tasting notes with fellow patrons.</p>
+            <a href="#submit-review-card" class="btn btn-primary btn-sm"><i class="fas fa-pen-nib"></i> Leave a Review</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN SPLIT: SUBMISSION FORM & REVIEWS FEED -->
+      <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 3rem; align-items: start;">
+        
+        <!-- SUBMIT REVIEW CARD -->
+        <div id="submit-review-card" class="glass-panel" style="padding: 2.2rem; border-color: rgba(212,155,106,0.3);">
+          <h3 style="font-size: 1.35rem; margin-bottom: 0.4rem;"><i class="fas fa-feather-pointed text-caramel"></i> Leave Your Feedback</h3>
+          <p style="font-size: 0.88rem; color: var(--cream-muted); margin-bottom: 1.5rem;">Your review will appear instantly on our public board.</p>
+
+          <form onsubmit="handleReviewSubmit(event)">
+            <!-- Interactive 5-Star Picker -->
+            <div class="form-group">
+              <label class="form-label">Your Rating *</label>
+              <div id="star-picker" class="star-rating-select">
+                <i class="fas fa-star star-item active" data-rating="1" onclick="setRating(1)"></i>
+                <i class="fas fa-star star-item active" data-rating="2" onclick="setRating(2)"></i>
+                <i class="fas fa-star star-item active" data-rating="3" onclick="setRating(3)"></i>
+                <i class="fas fa-star star-item active" data-rating="4" onclick="setRating(4)"></i>
+                <i class="fas fa-star star-item active" data-rating="5" onclick="setRating(5)"></i>
+              </div>
+              <input type="hidden" id="selected-rating-val" value="5">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Your Name *</label>
+              <input type="text" id="review-name" required class="form-control" placeholder="Sarah Jenkins">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select id="review-category" class="form-control">
+                <option value="Hot Coffee">Hot Coffee</option>
+                <option value="Cold Drinks">Cold Drinks</option>
+                <option value="Artisan Teas">Artisan Teas</option>
+                <option value="Artisanal Snacks">Artisanal Snacks</option>
+                <option value="Gourmet Desserts">Gourmet Desserts</option>
+                <option value="Whole Beans">Whole Bean Reserves</option>
+                <option value="Atmosphere & Service">Atmosphere & Service</option>
+                <option value="Overall Experience">Overall Experience</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Review Details *</label>
+              <textarea id="review-text" required rows="4" class="form-control" placeholder="Tell us about the crema, milk texture, or cafe ambiance..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+              <i class="fas fa-paper-plane"></i> Publish Review
+            </button>
+          </form>
+        </div>
+
+        <!-- REVIEWS FEED -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h3 style="font-size: 1.35rem; margin: 0;">Recent Connoisseur Thoughts</h3>
+            <span id="reviews-count-badge" style="font-size: 0.85rem; color: var(--caramel); font-weight: 700;">4 Verified Reviews</span>
+          </div>
+
+          <div id="reviews-feed-container" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <!-- Dynamically populated via JS -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Coffee Corner Artisanal Coffee. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- GLOBAL SLIDE-OVER CART DRAWER -->
+  <div id="cart-drawer-overlay" class="cart-drawer-overlay">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <h3 style="font-size: 1.25rem; font-family: var(--font-serif);"><i class="fas fa-shopping-bag text-caramel"></i> Your Order</h3>
+        <button class="modal-close-btn" onclick="closeCartDrawer()"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="cart-drawer-items" class="cart-items-container"></div>
+      <div class="cart-footer">
+        <div class="cart-summary-line total">
+          <span>Estimated Total</span>
+          <span id="cart-drawer-total" class="text-gold">$0.00</span>
+        </div>
+        <div style="display:flex; gap:0.8rem;">
+          <a href="cart.html" class="btn btn-secondary" style="flex:1;">Full Cart</a>
+          <button class="btn btn-primary" style="flex:1.4;" onclick="proceedToCheckout()">Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    let activeRating = 5;
+
+    function setRating(val) {
+      activeRating = val;
+      document.getElementById('selected-rating-val').value = val;
+      const stars = document.querySelectorAll('#star-picker .star-item');
+      stars.forEach(s => {
+        const starVal = parseInt(s.dataset.rating, 10);
+        if (starVal <= val) {
+          s.classList.add('active');
+        } else {
+          s.classList.remove('active');
+        }
+      });
+    }
+
+    function renderReviewsFeed() {
+      const reviews = window.DB.getReviews('Approved');
+      const container = document.getElementById('reviews-feed-container');
+      const countBadge = document.getElementById('reviews-count-badge');
+      if (!container) return;
+
+      countBadge.textContent = `${reviews.length} Verified Reviews`;
+
+      container.innerHTML = reviews.map(rev => {
+        let starsHtml = '';
+        for (let i = 1; i <= 5; i++) {
+          starsHtml += `<i class="fas fa-star" style="color: ${i <= rev.rating ? 'var(--gold)' : 'rgba(255,255,255,0.2)'};"></i>`;
+        }
+
+        const initials = rev.customer_name.split(' ').map(n=>n[0]).join('').substring(0, 2);
+
+        return `
+          <div class="glass-panel" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem;">
+              <div style="display: flex; align-items: center; gap: 0.9rem;">
+                <div style="width: 42px; height: 42px; border-radius: 50%; background: var(--caramel); color: #120904; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 0.95rem;">
+                  ${initials}
+                </div>
+                <div>
+                  <h4 style="font-size: 1rem; margin-bottom: 0.15rem; color: var(--cream);">${rev.customer_name}</h4>
+                  <span style="font-size: 0.76rem; color: var(--caramel);"><i class="fas fa-check-circle"></i> Verified Coffee Club Member</span>
+                </div>
+              </div>
+              <div style="font-size: 0.9rem;">${starsHtml}</div>
+            </div>
+
+            <span class="tag-pill" style="display: inline-block; margin-bottom: 0.8rem;">${rev.category}</span>
+            <p style="font-size: 0.94rem; line-height: 1.6; color: var(--cream-soft); margin-bottom: 1.2rem;">
+              "${rev.review_text}"
+            </p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 0.8rem; font-size: 0.8rem; color: var(--cream-muted);">
+              <span>${new Date(rev.created_at).toLocaleDateString()}</span>
+              <button class="btn btn-secondary btn-sm" onclick="voteHelpful(this, ${rev.review_id})" style="padding: 0.25rem 0.6rem; font-size: 0.78rem;">
+                <i class="far fa-thumbs-up"></i> Helpful (${rev.helpful_count || 0})
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function voteHelpful(btn, revId) {
+      btn.innerHTML = `<i class="fas fa-thumbs-up text-gold"></i> Helpful`;
+      btn.disabled = true;
+      showToast('Thank you for your feedback!');
+    }
+
+    function handleReviewSubmit(e) {
+      e.preventDefault();
+      const customerName = document.getElementById('review-name').value;
+      const category = document.getElementById('review-category').value;
+      const reviewText = document.getElementById('review-text').value;
+
+      window.DB.addReview({
+        customerName,
+        rating: activeRating,
+        category,
+        reviewText
+      });
+
+      showToast('Your review has been published! Thank you.');
+      e.target.reset();
+      setRating(5);
+      renderReviewsFeed();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Auto-prefill name if logged in
+      const user = window.DB.getCurrentUser();
+      if (user) {
+        document.getElementById('review-name').value = user.full_name;
+      }
+      renderReviewsFeed();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us & Our Heritage | Coffee Corner</title>
+  <meta name="description" content="Discover Coffee Corner's story, our small-batch roasting philosophy, sustainable direct farm relationships, and master baristas.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- SITE HEADER & NAVIGATION -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-icon"><i class="fas fa-coffee"></i></div>
+        <span>Coffee <span class="accent">Corner</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="about.html" class="active">About Us</a></li>
+          <li><a href="feedback.html">Reviews</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="admin.html" style="color: var(--caramel);"><i class="fas fa-lock" style="font-size:0.75rem; margin-right:4px;"></i>Admin</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="nav-user-btn" class="nav-action-btn" onclick="handleNavUserClick()" title="My Account">
+          <i class="fas fa-user"></i>
+        </button>
+        <button class="nav-action-btn" onclick="openCartDrawer()" title="View Cart">
+          <i class="fas fa-shopping-bag"></i>
+          <span id="cart-badge" class="badge-counter" style="display:none;">0</span>
+        </button>
+        <button class="mobile-menu-toggle" aria-label="Toggle navigation menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 7.5rem;">
+    <!-- ABOUT HERO -->
+    <section class="container" style="text-align: center; margin-bottom: 4rem;">
+      <div class="section-tag"><i class="fas fa-mug-saucer"></i> Founded with Love • Seattle Roastery</div>
+      <h1 class="section-title">The Coffee Corner Story</h1>
+      <p class="section-subtitle">
+        Born from a passion for handcrafted roasts and warm neighborhood conversations, Coffee Corner is your daily retreat for exceptional coffee and fresh bakery favorites.
+      </p>
+    </section>
+
+    <!-- STORY SPLIT SECTION -->
+    <section class="container" style="margin-bottom: 6rem;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3.5rem; align-items: center;">
+        <div>
+          <div class="section-tag"><i class="fas fa-seedling"></i> Our Philosophy</div>
+          <h2 style="font-size: 2.2rem; margin-bottom: 1.2rem;">From the Soil to Your Cup</h2>
+          <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.4rem; color: var(--cream-soft);">
+            At Coffee Corner, we believe coffee is a sensory craft. Every single harvest we select is cultivated in high-altitude volcanic soils in Sidamo, Ethiopia, and Huila, Colombia. The higher elevation allows the coffee cherries to mature slowly, concentrating natural honeysuckle, dark chocolate, and candied citrus notes.
+          </p>
+          <p style="font-size: 1rem; line-height: 1.7; margin-bottom: 2rem; color: var(--cream-muted);">
+            Our master roasters treat each batch with individual attention. We dial in roasting curves that caramelize sugars gently without overpowering the bean's origin characteristics. The result is a cup of coffee that tastes naturally smooth, balanced, and memorable.
+          </p>
+          <div style="display: flex; gap: 2rem; border-top: 1px solid rgba(212,155,106,0.2); padding-top: 1.5rem;">
+            <div>
+              <h3 style="font-size: 1.8rem; color: var(--caramel); margin-bottom: 0.2rem;">100%</h3>
+              <p style="font-size: 0.85rem; color: var(--cream-muted);">Direct Trade</p>
+            </div>
+            <div>
+              <h3 style="font-size: 1.8rem; color: var(--caramel); margin-bottom: 0.2rem;">24 Hrs</h3>
+              <p style="font-size: 0.85rem; color: var(--cream-muted);">Roast-to-Cup Peak</p>
+            </div>
+            <div>
+              <h3 style="font-size: 1.8rem; color: var(--caramel); margin-bottom: 0.2rem;">0%</h3>
+              <p style="font-size: 0.85rem; color: var(--cream-muted);">Artificial Syrups</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="position: relative;">
+          <div class="glass-panel" style="overflow: hidden; padding: 0.6rem; border-color: rgba(212,155,106,0.35);">
+            <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=800&q=80" alt="Roasting Beans" style="width: 100%; height: 420px; object-fit: cover; border-radius: var(--radius-md);">
+          </div>
+          <div class="glass-panel" style="position: absolute; bottom: -20px; left: -20px; padding: 1.2rem 1.6rem; display: flex; align-items: center; gap: 1rem; background: rgba(18,10,5,0.92);">
+            <i class="fas fa-award text-gold" style="font-size: 2rem;"></i>
+            <div>
+              <h5 style="font-size: 0.95rem; margin-bottom: 0.2rem;">SCA Specialty Certified</h5>
+              <span style="font-size: 0.78rem; color: var(--cream-muted);">Specialty Coffee Association Member</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FARM-TO-CUP PROCESS -->
+    <section class="section-padding" style="background: rgba(18, 10, 5, 0.65); border-top: 1px solid rgba(212,155,106,0.12); border-bottom: 1px solid rgba(212,155,106,0.12);">
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 3.5rem;">
+          <div class="section-tag"><i class="fas fa-gears"></i> The Standards</div>
+          <h2 class="section-title">Four Pillars of Coffee Corner</h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem;">
+          <div class="glass-panel" style="padding: 2.2rem;">
+            <span style="font-family: var(--font-serif); font-size: 2.5rem; color: var(--caramel); opacity: 0.45; font-weight: 800; display: block; margin-bottom: 0.5rem;">01</span>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.8rem;">Direct Sourcing</h3>
+            <p style="font-size: 0.92rem; color: var(--cream-muted); line-height: 1.6;">
+              We visit farming partners each season to verify soil quality, sun-drying raised beds, and hand-picking practices, ensuring premium ethical wages.
+            </p>
+          </div>
+
+          <div class="glass-panel" style="padding: 2.2rem;">
+            <span style="font-family: var(--font-serif); font-size: 2.5rem; color: var(--caramel); opacity: 0.45; font-weight: 800; display: block; margin-bottom: 0.5rem;">02</span>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.8rem;">Profile Roasting</h3>
+            <p style="font-size: 0.92rem; color: var(--cream-muted); line-height: 1.6;">
+              Every coffee origin has a distinct thermal profile. We capture the optimal flavor peak to highlight natural sweetness and caramel aroma.
+            </p>
+          </div>
+
+          <div class="glass-panel" style="padding: 2.2rem;">
+            <span style="font-family: var(--font-serif); font-size: 2.5rem; color: var(--caramel); opacity: 0.45; font-weight: 800; display: block; margin-bottom: 0.5rem;">03</span>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.8rem;">Water & Grind Science</h3>
+            <p style="font-size: 0.92rem; color: var(--cream-muted); line-height: 1.6;">
+              We brew with precision-filtered water mineralized with magnesium and calcium, dialed to 0.01mm tolerance on precision flat burrs.
+            </p>
+          </div>
+
+          <div class="glass-panel" style="padding: 2.2rem;">
+            <span style="font-family: var(--font-serif); font-size: 2.5rem; color: var(--caramel); opacity: 0.45; font-weight: 800; display: block; margin-bottom: 0.5rem;">04</span>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.8rem;">Handcrafted Pour</h3>
+            <p style="font-size: 0.92rem; color: var(--cream-muted); line-height: 1.6;">
+              Steamed whole and barista plant milks textured to a velvety 62°C, poured with signature rosetta latte art in pre-heated ceramic cups.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEET OUR MASTER BARISTAS & ROASTERS -->
+    <section class="section-padding">
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 3.5rem;">
+          <div class="section-tag"><i class="fas fa-users"></i> The Collective</div>
+          <h2 class="section-title">Meet Our Baristas & Chefs</h2>
+          <p class="section-subtitle">The skilled hands and friendly faces behind your daily Coffee Corner experience.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem;">
+          <!-- Barista 1 -->
+          <div class="glass-panel" style="overflow: hidden; text-align: center; padding-bottom: 2rem;">
+            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=500&q=80" alt="Chloe Zhao" style="width: 100%; height: 260px; object-fit: cover; margin-bottom: 1.4rem;">
+            <h4 style="font-size: 1.3rem; margin-bottom: 0.3rem;">Chloe Zhao</h4>
+            <span style="color: var(--caramel); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 0.8rem;">Head Barista & Roaster</span>
+            <p style="font-size: 0.88rem; color: var(--cream-muted); padding: 0 1.5rem; margin-bottom: 1.2rem;">
+              Two-time regional latte art champion. Chloe oversees roast quality and leads our monthly tasting cuppings.
+            </p>
+            <div style="font-size: 0.82rem; color: var(--gold); font-weight: 600;">Favorite: Artisan Cortado Royale</div>
+          </div>
+
+          <!-- Barista 2 -->
+          <div class="glass-panel" style="overflow: hidden; text-align: center; padding-bottom: 2rem;">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80" alt="David Miller" style="width: 100%; height: 260px; object-fit: cover; margin-bottom: 1.4rem;">
+            <h4 style="font-size: 1.3rem; margin-bottom: 0.3rem;">David Miller</h4>
+            <span style="color: var(--caramel); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 0.8rem;">Store Manager & Q-Grader</span>
+            <p style="font-size: 0.88rem; color: var(--cream-muted); padding: 0 1.5rem; margin-bottom: 1.2rem;">
+              Certified Q-Arabica Grader with 12 years of origin experience across Central and South America.
+            </p>
+            <div style="font-size: 0.82rem; color: var(--gold); font-weight: 600;">Favorite: Ethiopia Sidamo Pour-Over</div>
+          </div>
+
+          <!-- Barista 3 -->
+          <div class="glass-panel" style="overflow: hidden; text-align: center; padding-bottom: 2rem;">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80" alt="Amara Patel" style="width: 100%; height: 260px; object-fit: cover; margin-bottom: 1.4rem;">
+            <h4 style="font-size: 1.3rem; margin-bottom: 0.3rem;">Amara Patel</h4>
+            <span style="color: var(--caramel); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 0.8rem;">Executive Pastry Chef</span>
+            <p style="font-size: 0.88rem; color: var(--cream-muted); padding: 0 1.5rem; margin-bottom: 1.2rem;">
+              Pastry specialist baking every croissant, savory scone, and dessert cup in-house before sunrise.
+            </p>
+            <div style="font-size: 0.82rem; color: var(--gold); font-weight: 600;">Favorite: French Butter Croissant</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUSTAINABILITY MANIFESTO -->
+    <section class="container" style="margin-bottom: 6rem;">
+      <div class="glass-panel" style="padding: 3.5rem 2.5rem; border-color: rgba(212,155,106,0.3); text-align: center; background: linear-gradient(135deg, rgba(32,18,10,0.85), rgba(18,9,4,0.92));">
+        <i class="fas fa-earth-americas text-caramel" style="font-size: 2.8rem; margin-bottom: 1.2rem;"></i>
+        <h2 style="font-size: 2.2rem; margin-bottom: 1rem;">Our Community & Sustainability Commitment</h2>
+        <p style="max-width: 650px; margin: 0 auto 2rem auto; font-size: 1rem; color: var(--cream-soft); line-height: 1.7;">
+          Every coffee cup purchased supports direct reforestation in the Ethiopian highlands and clean water initiatives for coffee farming families.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <a href="menu.html" class="btn btn-primary">Taste Our Specialty Roasts</a>
+          <a href="contact.html" class="btn btn-secondary">Visit Our Cafe & Roastery</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand-logo">
+          <div class="logo-icon"><i class="fas fa-coffee"></i></div>
+          <span>Coffee <span class="accent">Corner</span></span>
+        </a>
+        <p>Your daily haven for specialty roasted coffees, slow-steeped cold brews, artisan teas, and artisanal baked treats.</p>
+      </div>
+      <div class="footer-column">
+        <h4>Navigation</h4>
+        <ul class="footer-links-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Products & Menu</a></li>
+          <li><a href="about.html">About Coffee Corner</a></li>
+          <li><a href="feedback.html">Customer Reviews</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Customer Care</h4>
+        <ul class="footer-links-list">
+          <li><a href="orders.html">Track My Order</a></li>
+          <li><a href="cart.html">View Cart</a></li>
+          <li><a href="contact.html">Store Location</a></li>
+          <li><a href="admin.html">Staff Portal</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Opening Hours</h4>
+        <p style="font-size:0.92rem; margin-bottom:0.5rem;">Mon - Fri: 06:00 AM – 08:00 PM</p>
+        <p style="font-size:0.92rem; margin-bottom:0.5rem;">Sat - Sun: 07:00 AM – 09:00 PM</p>
+        <p style="font-size:0.85rem; color:var(--caramel);"><i class="fas fa-map-marker-alt"></i> 108 Pike Street, Seattle, WA</p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Coffee Corner. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- GLOBAL SLIDE-OVER CART DRAWER -->
+  <div id="cart-drawer-overlay" class="cart-drawer-overlay">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <h3 style="font-size: 1.25rem; font-family: var(--font-serif);"><i class="fas fa-shopping-bag text-caramel"></i> Your Order</h3>
+        <button class="modal-close-btn" onclick="closeCartDrawer()"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="cart-drawer-items" class="cart-items-container"></div>
+      <div class="cart-footer">
+        <div class="cart-summary-line total">
+          <span>Estimated Total</span>
+          <span id="cart-drawer-total" class="text-gold">$0.00</span>
+        </div>
+        <div style="display:flex; gap:0.8rem;">
+          <a href="cart.html" class="btn btn-secondary" style="flex:1;">Full Cart</a>
+          <button class="btn btn-primary" style="flex:1.4;" onclick="proceedToCheckout()">Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

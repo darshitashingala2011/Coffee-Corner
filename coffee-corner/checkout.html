@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Express Checkout | Coffee Corner</title>
+  <meta name="description" content="Complete your Coffee Corner order securely with encrypted credit card payment, digital wallet, or pay upon delivery.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    /* Interactive Credit Card Preview */
+    .credit-card-preview {
+      width: 100%;
+      max-width: 380px;
+      height: 210px;
+      background: linear-gradient(135deg, #2b180d 0%, #150c07 60%, #442615 100%);
+      border: 1px solid rgba(229, 185, 103, 0.4);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin: 0 auto 1.5rem auto;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+    .credit-card-preview::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(212,155,106,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .card-chip {
+      width: 44px;
+      height: 32px;
+      background: linear-gradient(135deg, #d4af37, #f7e089);
+      border-radius: 6px;
+      box-shadow: inset 0 0 4px rgba(0,0,0,0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SITE HEADER & NAVIGATION -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-icon"><i class="fas fa-coffee"></i></div>
+        <span>Coffee <span class="accent">Corner</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="feedback.html">Reviews</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <span style="font-size: 0.85rem; color: var(--gold); font-weight: 700;">
+          <i class="fas fa-lock"></i> 256-Bit Encrypted
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 7.5rem; min-height: 85vh;">
+    <div class="container" style="margin-bottom: 5rem;">
+      <div style="text-align: center; margin-bottom: 2.5rem;">
+        <div class="section-tag"><i class="fas fa-credit-card"></i> Secure Checkout</div>
+        <h1 class="section-title">Finalise Your Order</h1>
+      </div>
+
+      <form id="checkout-form" onsubmit="handlePlaceOrder(event)">
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2.5rem; align-items: start;">
+          
+          <!-- LEFT: SHIPPING & PAYMENT DETAILS -->
+          <div style="display: flex; flex-direction: column; gap: 2rem;">
+            
+            <!-- Delivery Details Card -->
+            <div class="glass-panel" style="padding: 2.2rem;">
+              <h3 style="font-size: 1.3rem; margin-bottom: 1.4rem;">
+                <i class="fas fa-truck text-caramel"></i> 1. Delivery & Contact Details
+              </h3>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                  <label class="form-label">Recipient Full Name *</label>
+                  <input type="text" id="chk-fullname" required class="form-control" value="Sarah Jenkins">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email for Tracking Receipt *</label>
+                  <input type="email" id="chk-email" required class="form-control" value="sarah@coffeecorner.com">
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                  <label class="form-label">Phone for Delivery Updates *</label>
+                  <input type="tel" id="chk-phone" required class="form-control" value="+1 (555) 349-8821">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Order Type</label>
+                  <select id="chk-delivery-type" class="form-control">
+                    <option value="Delivery">White-Glove Roastery Delivery</option>
+                    <option value="Pick-Up">Pick-Up at Pike St Counter (Ready in 15 mins)</option>
+                    <option value="Dine-In">Dine-In Table Reservation</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Street Address *</label>
+                <input type="text" id="chk-address" required class="form-control" value="742 Evergreen Terrace, Apt 4B, Seattle, WA">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Special Delivery / Brewing Instructions</label>
+                <textarea id="chk-notes" rows="2" class="form-control" placeholder="e.g. Leave at front door, gate code #4821, extra napkins..."></textarea>
+              </div>
+            </div>
+
+            <!-- Payment Method Card -->
+            <div class="glass-panel" style="padding: 2.2rem;">
+              <h3 style="font-size: 1.3rem; margin-bottom: 1.4rem;">
+                <i class="fas fa-wallet text-caramel"></i> 2. Payment Method
+              </h3>
+
+              <!-- Payment Method Selector Tabs -->
+              <div style="display: flex; gap: 0.8rem; margin-bottom: 1.8rem; flex-wrap: wrap;">
+                <button type="button" id="paytab-card" class="btn btn-sm btn-primary" onclick="switchPaymentMethod('card')">
+                  <i class="fas fa-credit-card"></i> Credit / Debit Card
+                </button>
+                <button type="button" id="paytab-apple" class="btn btn-sm btn-secondary" onclick="switchPaymentMethod('apple')">
+                  <i class="fab fa-apple"></i> Apple Pay
+                </button>
+                <button type="button" id="paytab-cod" class="btn btn-sm btn-secondary" onclick="switchPaymentMethod('cod')">
+                  <i class="fas fa-money-bill-wave"></i> Cash on Delivery
+                </button>
+              </div>
+
+              <!-- CARD PAYMENT VIEW -->
+              <div id="payment-card-view">
+                <!-- Visual Interactive Card -->
+                <div class="credit-card-preview">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="card-chip"></div>
+                    <span style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--gold); font-weight: 700;">Coffee Corner Gold</span>
+                  </div>
+                  <div>
+                    <div id="card-preview-number" style="font-family: monospace; font-size: 1.25rem; letter-spacing: 0.15em; color: var(--cream); margin-bottom: 0.8rem;">
+                      •••• •••• •••• 4242
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--cream-muted); text-transform: uppercase;">
+                      <div>
+                        <span>Cardholder</span>
+                        <div id="card-preview-name" style="color: var(--cream); font-weight: 700; font-size: 0.95rem;">Sarah Jenkins</div>
+                      </div>
+                      <div style="text-align: right;">
+                        <span>Expires</span>
+                        <div id="card-preview-exp" style="color: var(--cream); font-weight: 700; font-size: 0.95rem;">08/28</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Card Number</label>
+                  <input type="text" id="chk-card-num" class="form-control" placeholder="4242 •••• •••• 4242" value="4242 8820 9012 4242" maxlength="19" oninput="updateCardNumber(this)">
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                  <div class="form-group">
+                    <label class="form-label">Expiration Date</label>
+                    <input type="text" id="chk-card-exp" class="form-control" placeholder="MM/YY" value="08/28" maxlength="5" oninput="updateCardExp(this)">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Security Code (CVV)</label>
+                    <input type="password" id="chk-card-cvv" class="form-control" placeholder="•••" value="842" maxlength="4">
+                  </div>
+                </div>
+              </div>
+
+              <!-- APPLE / GOOGLE PAY VIEW -->
+              <div id="payment-apple-view" style="display: none; text-align: center; padding: 2rem 1rem;">
+                <div style="width: 60px; height: 60px; border-radius: 50%; background: #000; color: #fff; margin: 0 auto 1.2rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; border: 1px solid rgba(255,255,255,0.2);">
+                  <i class="fab fa-apple"></i>
+                </div>
+                <h4 style="font-size: 1.2rem; margin-bottom: 0.4rem;">One-Touch Biometric Express</h4>
+                <p style="font-size: 0.88rem; color: var(--cream-muted); margin-bottom: 1.5rem;">
+                  Touch ID / Face ID or Google Pay will be verified when placing order.
+                </p>
+              </div>
+
+              <!-- CASH ON DELIVERY VIEW -->
+              <div id="payment-cod-view" style="display: none; padding: 1.5rem; background: rgba(255,255,255,0.03); border: 1px dashed rgba(212,155,106,0.3); border-radius: var(--radius-md);">
+                <div style="display: flex; gap: 0.8rem; align-items: center;">
+                  <i class="fas fa-hand-holding-dollar text-gold" style="font-size: 1.8rem;"></i>
+                  <div>
+                    <h5 style="font-size: 1rem; margin-bottom: 0.2rem;">Pay Upon Delivery</h5>
+                    <p style="font-size: 0.85rem; color: var(--cream-muted); margin: 0;">
+                      Our barista courier carries mobile contactless card readers and cash change.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- RIGHT: ORDER RECAP & SUBMIT -->
+          <div class="glass-panel" style="padding: 2.2rem; border-color: rgba(212,155,106,0.3); position: sticky; top: 100px;">
+            <h3 style="font-size: 1.25rem; margin-bottom: 1.2rem; border-bottom: 1px solid rgba(212,155,106,0.18); padding-bottom: 0.8rem;">
+              Your Items (<span id="chk-item-count">0</span>)
+            </h3>
+
+            <div id="chk-items-list" style="display: flex; flex-direction: column; gap: 0.9rem; max-height: 280px; overflow-y: auto; margin-bottom: 1.4rem;">
+              <!-- Dynamically listed -->
+            </div>
+
+            <!-- Price Breakdown -->
+            <div style="display: flex; flex-direction: column; gap: 0.7rem; border-top: 1px solid rgba(212,155,106,0.15); padding-top: 1rem; margin-bottom: 1.5rem;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--cream-muted);">
+                <span>Subtotal</span>
+                <span id="chk-subtotal">$0.00</span>
+              </div>
+              <div id="chk-discount-row" style="display: none; justify-content: space-between; font-size: 0.9rem; color: var(--gold);">
+                <span>Voucher Discount</span>
+                <span id="chk-discount">-$0.00</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--cream-muted);">
+                <span>Estimated Tax (10%)</span>
+                <span id="chk-tax">$0.00</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--cream-muted);">
+                <span>Delivery</span>
+                <span id="chk-delivery">$2.50</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 1.35rem; font-weight: 800; color: var(--gold); border-top: 1px solid rgba(212,155,106,0.2); padding-top: 0.8rem;">
+                <span>Total to Pay</span>
+                <span id="chk-total">$0.00</span>
+              </div>
+            </div>
+
+            <button type="submit" id="btn-place-order" class="btn btn-primary btn-lg" style="width: 100%;">
+              <i class="fas fa-lock"></i> Place Order & Brew Now
+            </button>
+
+            <div style="text-align: center; margin-top: 1.2rem; font-size: 0.8rem; color: var(--cream-muted);">
+              <i class="fas fa-shield-alt text-caramel"></i> Guaranteed Fresh • 100% Satisfaction Guarantee
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Coffee Corner Artisanal Coffee. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    let activePaymentMethod = 'Credit Card';
+
+    function switchPaymentMethod(method) {
+      const cardView = document.getElementById('payment-card-view');
+      const appleView = document.getElementById('payment-apple-view');
+      const codView = document.getElementById('payment-cod-view');
+      const tabCard = document.getElementById('paytab-card');
+      const tabApple = document.getElementById('paytab-apple');
+      const tabCod = document.getElementById('paytab-cod');
+
+      tabCard.className = 'btn btn-sm btn-secondary';
+      tabApple.className = 'btn btn-sm btn-secondary';
+      tabCod.className = 'btn btn-sm btn-secondary';
+      cardView.style.display = 'none';
+      appleView.style.display = 'none';
+      codView.style.display = 'none';
+
+      if (method === 'card') {
+        activePaymentMethod = 'Credit Card';
+        tabCard.className = 'btn btn-sm btn-primary';
+        cardView.style.display = 'block';
+      } else if (method === 'apple') {
+        activePaymentMethod = 'Apple Pay';
+        tabApple.className = 'btn btn-sm btn-primary';
+        appleView.style.display = 'block';
+      } else {
+        activePaymentMethod = 'Cash on Delivery';
+        tabCod.className = 'btn btn-sm btn-primary';
+        codView.style.display = 'block';
+      }
+    }
+
+    function updateCardNumber(input) {
+      let val = input.value.replace(/\D/g, '').substring(0, 16);
+      val = val != '' ? val.match(/.{1,4}/g).join(' ') : '';
+      input.value = val;
+      document.getElementById('card-preview-number').textContent = val || '•••• •••• •••• 4242';
+    }
+
+    function updateCardExp(input) {
+      let val = input.value.replace(/\D/g, '').substring(0, 4);
+      if (val.length >= 3) {
+        val = val.substring(0, 2) + '/' + val.substring(2, 4);
+      }
+      input.value = val;
+      document.getElementById('card-preview-exp').textContent = val || 'MM/YY';
+    }
+
+    function renderCheckoutSummary() {
+      const cart = window.DB.getCart();
+      if (cart.items.length === 0) {
+        window.location.href = 'menu.html';
+        return;
+      }
+
+      document.getElementById('chk-item-count').textContent = cart.totalItemsCount;
+      document.getElementById('chk-subtotal').textContent = `$${cart.subtotal.toFixed(2)}`;
+      document.getElementById('chk-tax').textContent = `$${cart.tax.toFixed(2)}`;
+      document.getElementById('chk-delivery').textContent = cart.deliveryFee === 0 ? 'FREE' : `$${cart.deliveryFee.toFixed(2)}`;
+      document.getElementById('chk-total').textContent = `$${cart.total.toFixed(2)}`;
+
+      const discountRow = document.getElementById('chk-discount-row');
+      const discountEl = document.getElementById('chk-discount');
+      if (cart.discount > 0) {
+        discountRow.style.display = 'flex';
+        discountEl.textContent = `-$${cart.discount.toFixed(2)}`;
+      } else {
+        discountRow.style.display = 'none';
+      }
+
+      const listEl = document.getElementById('chk-items-list');
+      listEl.innerHTML = cart.items.map(item => `
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem;">
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <img src="${item.image_url}" alt="${item.name}" style="width: 36px; height: 36px; border-radius: 4px; object-fit: cover;">
+            <div>
+              <strong style="color: var(--cream);">${item.name}</strong>
+              <div style="font-size: 0.75rem; color: var(--cream-muted);">${item.quantity}x • ${item.cup_size}</div>
+            </div>
+          </div>
+          <span style="font-weight: 700; color: var(--gold);">$${item.subtotal.toFixed(2)}</span>
+        </div>
+      `).join('');
+    }
+
+    function handlePlaceOrder(e) {
+      e.preventDefault();
+      const placeBtn = document.getElementById('btn-place-order');
+      placeBtn.disabled = true;
+      placeBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Authorising & Brewing...`;
+
+      setTimeout(() => {
+        try {
+          const fullName = document.getElementById('chk-fullname').value;
+          const email = document.getElementById('chk-email').value;
+          const phone = document.getElementById('chk-phone').value;
+          const address = document.getElementById('chk-address').value;
+          const deliveryType = document.getElementById('chk-delivery-type').value;
+          const notes = document.getElementById('chk-notes').value;
+          const cardNum = document.getElementById('chk-card-num').value;
+
+          const res = window.DB.createOrder({
+            fullName,
+            email,
+            phone,
+            address,
+            deliveryType,
+            notes,
+            paymentMethod: activePaymentMethod,
+            cardNumber: cardNum
+          });
+
+          // Redirect to order success page
+          window.location.href = `order-success.html?orderId=${res.order.order_id}&orderNum=${res.order.order_number}`;
+        } catch (err) {
+          showToast(err.message, 'error');
+          placeBtn.disabled = false;
+          placeBtn.innerHTML = `<i class="fas fa-lock"></i> Place Order & Brew Now`;
+        }
+      }, 1200);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Auto-prefill if user is logged in
+      const user = window.DB.getCurrentUser();
+      if (user) {
+        document.getElementById('chk-fullname').value = user.full_name;
+        document.getElementById('chk-email').value = user.email;
+        if (user.phone) document.getElementById('chk-phone').value = user.phone;
+        if (user.address) document.getElementById('chk-address').value = user.address;
+        document.getElementById('card-preview-name').textContent = user.full_name;
+      }
+      renderCheckoutSummary();
+    });
+  </script>
+</body>
+</html>

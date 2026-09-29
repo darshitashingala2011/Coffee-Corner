@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coffee Corner | Premium 3D Artisanal Coffee Experience</title>
+  <meta name="description" content="Welcome to Coffee Corner. Immerse in our 3D artisanal coffee experience. Handcrafted hot coffees, nitro cold brews, ceremonial teas, and fresh gourmet pastries.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- SITE HEADER & NAVIGATION -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-icon">
+          <i class="fas fa-coffee"></i>
+        </div>
+        <span>Coffee <span class="accent">Corner</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="feedback.html">Reviews</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="admin.html" style="color: var(--caramel);"><i class="fas fa-lock" style="font-size:0.75rem; margin-right:4px;"></i>Admin</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- User Account Button -->
+        <button id="nav-user-btn" class="nav-action-btn" onclick="handleNavUserClick()" title="My Account">
+          <i class="fas fa-user"></i>
+        </button>
+
+        <!-- Cart Drawer Toggle Button -->
+        <button class="nav-action-btn" onclick="openCartDrawer()" title="View Cart">
+          <i class="fas fa-shopping-bag"></i>
+          <span id="cart-badge" class="badge-counter" style="display:none;">0</span>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" aria-label="Toggle navigation menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION WITH INTERACTIVE 3D COFFEE CUP -->
+    <section class="hero-section">
+      <div class="container hero-grid">
+        <!-- Hero Text Content -->
+        <div class="hero-content">
+          <div class="hero-subtitle-tag">
+            <i class="fas fa-award"></i> Welcome to Coffee Corner • Small Batch Roasted
+          </div>
+          <h1 class="hero-title">
+            Crafting Moments, <br><span class="gradient-text">One Sip at a Time</span>
+          </h1>
+          <p class="hero-description">
+            Experience hand-pulled espresso extractions, velvety caramel macchiatos, slow 18-hour cold brew perfection, and single-origin beans sourced directly from sustainable high-altitude farms.
+          </p>
+          
+          <div class="hero-cta-group">
+            <a href="menu.html" class="btn btn-primary btn-lg">
+              <i class="fas fa-mug-hot"></i> Explore Our Menu
+            </a>
+            <button class="btn btn-secondary btn-lg" onclick="openCustomizeModal(1)">
+              <i class="fas fa-sliders-h"></i> Customise Drink
+            </button>
+          </div>
+
+          <!-- Hero Social Proof & Stats -->
+          <div class="hero-stats">
+            <div class="stat-item">
+              <h4>18+</h4>
+              <p>Specialty Roasts</p>
+            </div>
+            <div class="stat-item">
+              <h4>4.9 ★</h4>
+              <p>Customer Rating</p>
+            </div>
+            <div class="stat-item">
+              <h4>100%</h4>
+              <p>Organic Fair Trade</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Cup Canvas & Interactive Controls -->
+        <div class="hero-3d-wrapper">
+          <div id="three-canvas-container"></div>
+          
+          <div class="interactive-hint">
+            <i class="fas fa-hand-pointer"></i> Drag to rotate 3D cup & beans
+          </div>
+
+          <!-- 3D Flavor Switcher -->
+          <div class="flavor-selector">
+            <button class="flavor-btn active" data-flavor="caramel">
+              <span class="flavor-color-dot" style="background:#d49b6a;"></span>
+              Caramel Velvet
+            </button>
+            <button class="flavor-btn" data-flavor="flatwhite">
+              <span class="flavor-color-dot" style="background:#f5deb3;"></span>
+              Flat White
+            </button>
+            <button class="flavor-btn" data-flavor="matcha">
+              <span class="flavor-color-dot" style="background:#70a040;"></span>
+              Matcha Uji
+            </button>
+            <button class="flavor-btn" data-flavor="espresso">
+              <span class="flavor-color-dot" style="background:#2b180d;"></span>
+              Dark Crema
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMOTIONS & LIMITED OFFERS -->
+    <section class="container" style="margin-top: 3rem; margin-bottom: 2rem;">
+      <div class="offers-banner">
+        <div class="offers-content">
+          <span class="promo-badge"><i class="fas fa-sparkles"></i> Welcome Offer</span>
+          <h3>Get 10% Off Your Coffee Corner Order</h3>
+          <p style="color:var(--cream-soft); max-width:520px; margin-bottom:1.4rem;">
+            Use coupon code <strong style="color:var(--gold); font-size:1.1rem; letter-spacing:0.05em; background:rgba(0,0,0,0.4); padding:0.2rem 0.6rem; border-radius:4px; border:1px dashed var(--gold);">CORNER10</strong> at checkout for 10% instant discount, or <strong style="color:var(--gold);">FIRSTCUP</strong> for $5 off.
+          </p>
+          <a href="menu.html" class="btn btn-primary btn-sm">Order with 10% Discount</a>
+        </div>
+        <div style="font-size: 5rem; color: rgba(212,155,106,0.25); display: none; @media(min-width:768px){display:block;}">
+          <i class="fas fa-tags"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED ARTISANAL DRINKS -->
+    <section class="section-padding">
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 3.5rem;">
+          <div class="section-tag"><i class="fas fa-star"></i> Barista Signature Picks</div>
+          <h2 class="section-title">Crafted with Passion & Precision</h2>
+          <p class="section-subtitle">
+            Every cup at Coffee Corner is calibrated with mineral-balanced water, exact 9-bar espresso pressure, and silky steamed microfoam.
+          </p>
+        </div>
+
+        <div id="featured-products-grid" class="products-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <div style="text-align: center; margin-top: 3.5rem;">
+          <a href="menu.html" class="btn btn-secondary btn-lg">
+            View Complete Menu (Coffee, Tea, Snacks & Desserts) <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY COFFEE CORNER / ARTISANAL VALUES -->
+    <section class="section-padding" style="background: rgba(18, 10, 5, 0.65); border-top: 1px solid rgba(212,155,106,0.12); border-bottom: 1px solid rgba(212,155,106,0.12);">
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 4rem;">
+          <div class="section-tag"><i class="fas fa-seedling"></i> The Coffee Corner Promise</div>
+          <h2 class="section-title">The Art of Pure Coffee</h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem;">
+          <!-- Feature 1 -->
+          <div class="glass-panel" style="padding: 2.2rem; text-align: center;">
+            <div style="width:65px; height:65px; margin:0 auto 1.4rem; border-radius:50%; background:rgba(212,155,106,0.15); display:flex; align-items:center; justify-content:center; color:var(--caramel); font-size:1.8rem; border:1px solid rgba(212,155,106,0.3);">
+              <i class="fas fa-mountain"></i>
+            </div>
+            <h3 style="font-size:1.3rem; margin-bottom:0.75rem;">Direct Farm Relationships</h3>
+            <p style="font-size:0.92rem; line-height:1.6;">
+              We partner directly with sustainable smallholder farms in Yirgacheffe, Huila, and Antigua, guaranteeing fair premium wages to growers.
+            </p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="glass-panel" style="padding: 2.2rem; text-align: center;">
+            <div style="width:65px; height:65px; margin:0 auto 1.4rem; border-radius:50%; background:rgba(212,155,106,0.15); display:flex; align-items:center; justify-content:center; color:var(--caramel); font-size:1.8rem; border:1px solid rgba(212,155,106,0.3);">
+              <i class="fas fa-fire-burner"></i>
+            </div>
+            <h3 style="font-size:1.3rem; margin-bottom:0.75rem;">Micro-Batch Roasting</h3>
+            <p style="font-size:0.92rem; line-height:1.6;">
+              Roasting in meticulous small batches develops complex chocolate notes, natural sweetness, and vibrant floral aromatics.
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="glass-panel" style="padding: 2.2rem; text-align: center;">
+            <div style="width:65px; height:65px; margin:0 auto 1.4rem; border-radius:50%; background:rgba(212,155,106,0.15); display:flex; align-items:center; justify-content:center; color:var(--caramel); font-size:1.8rem; border:1px solid rgba(212,155,106,0.3);">
+              <i class="fas fa-droplet"></i>
+            </div>
+            <h3 style="font-size:1.3rem; margin-bottom:0.75rem;">Water & Grind Science</h3>
+            <p style="font-size:0.92rem; line-height:1.6;">
+              Remineralized water at exactly 93.5°C, paired with titanium flat-burr grinding to capture peak sweetness without bitterness.
+            </p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="glass-panel" style="padding: 2.2rem; text-align: center;">
+            <div style="width:65px; height:65px; margin:0 auto 1.4rem; border-radius:50%; background:rgba(212,155,106,0.15); display:flex; align-items:center; justify-content:center; color:var(--caramel); font-size:1.8rem; border:1px solid rgba(212,155,106,0.3);">
+              <i class="fas fa-leaf"></i>
+            </div>
+            <h3 style="font-size:1.3rem; margin-bottom:0.75rem;">Eco-Conscious Packaging</h3>
+            <p style="font-size:0.92rem; line-height:1.6;">
+              100% biodegradable compostable takeaway cups, renewable energy in our roastery, and premium oat and almond milk varieties.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS SNIPPET -->
+    <section class="section-padding">
+      <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <div class="section-tag"><i class="fas fa-heart"></i> Customer Testimonials</div>
+            <h2 class="section-title">Loved by Our Community</h2>
+          </div>
+          <a href="feedback.html" class="btn btn-outline-gold btn-sm">Read All Reviews & Rate <i class="fas fa-chevron-right"></i></a>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.8rem;">
+          <div class="glass-panel" style="padding: 2rem;">
+            <div style="color:var(--gold); margin-bottom:1rem; font-size:1.1rem;">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p style="font-style:italic; line-height:1.7; margin-bottom:1.5rem; color:var(--cream);">
+              "The Caramel Velvet Macchiato at Coffee Corner is hands down the best coffee in town. The foam is like silk and the handmade caramel is exceptional."
+            </p>
+            <div style="display:flex; align-items:center; gap:0.85rem;">
+              <div style="width:44px; height:44px; border-radius:50%; background:var(--caramel); display:flex; align-items:center; justify-content:center; font-weight:800; color:#120703;">SJ</div>
+              <div>
+                <h5 style="font-size:0.95rem;">Sarah Jenkins</h5>
+                <span style="font-size:0.78rem; color:var(--cream-muted);">Verified Coffee Club Member</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-panel" style="padding: 2rem;">
+            <div style="color:var(--gold); margin-bottom:1rem; font-size:1.1rem;">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p style="font-style:italic; line-height:1.7; margin-bottom:1.5rem; color:var(--cream);">
+              "The warm, modern interior and welcoming baristas make Coffee Corner my daily ritual. Their Ethiopian pour-over is magnificent."
+            </p>
+            <div style="display:flex; align-items:center; gap:0.85rem;">
+              <div style="width:44px; height:44px; border-radius:50%; background:var(--caramel); display:flex; align-items:center; justify-content:center; font-weight:800; color:#120703;">MV</div>
+              <div>
+                <h5 style="font-size:0.95rem;">Marcus Vance</h5>
+                <span style="font-size:0.78rem; color:var(--cream-muted);">Espresso Purist</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-panel" style="padding: 2rem;">
+            <div style="color:var(--gold); margin-bottom:1rem; font-size:1.1rem;">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p style="font-style:italic; line-height:1.7; margin-bottom:1.5rem; color:var(--cream);">
+              "The Nitro Bourbon Vanilla Cold Brew is so creamy without any milk added! Arrived cold and frothy at my office in under 20 minutes."
+            </p>
+            <div style="display:flex; align-items:center; gap:0.85rem;">
+              <div style="width:44px; height:44px; border-radius:50%; background:var(--caramel); display:flex; align-items:center; justify-content:center; font-weight:800; color:#120703;">ER</div>
+              <div>
+                <h5 style="font-size:0.95rem;">Elena Rostova</h5>
+                <span style="font-size:0.78rem; color:var(--cream-muted);">Daily Patron</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER CALLOUT -->
+    <section class="container" style="margin-bottom: 5rem;">
+      <div class="glass-panel" style="padding: 3rem 2rem; text-align: center; border-color: rgba(212,155,106,0.35);">
+        <div class="section-tag"><i class="fas fa-envelope-open-text"></i> The Corner Dispatch</div>
+        <h3 style="font-size: 2.2rem; margin-bottom: 0.8rem;">Join the Coffee Corner Club</h3>
+        <p style="max-width: 540px; margin: 0 auto 2rem auto; color: var(--cream-muted);">
+          Receive invitations to private tasting sessions, reserve batch announcements, and seasonal discount vouchers.
+        </p>
+        <form onsubmit="event.preventDefault(); showToast('Thank you for subscribing! Your 10% welcome code is CORNER10.'); this.reset();" style="max-width: 480px; margin: 0 auto; display: flex; gap: 0.8rem; flex-wrap: wrap;">
+          <input type="email" required placeholder="Enter your email address..." class="form-control" style="flex: 1; min-width: 240px;">
+          <button type="submit" class="btn btn-primary" style="white-space: nowrap;">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand-logo">
+          <div class="logo-icon"><i class="fas fa-coffee"></i></div>
+          <span>Coffee <span class="accent">Corner</span></span>
+        </a>
+        <p>
+          Your daily haven for specialty roasted coffees, slow-steeped cold brews, artisan teas, and artisanal baked treats.
+        </p>
+        <div class="social-links">
+          <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-btn" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+          <a href="#" class="social-btn" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-column">
+        <h4>Explore</h4>
+        <ul class="footer-links-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Products & Menu</a></li>
+          <li><a href="about.html">About Coffee Corner</a></li>
+          <li><a href="feedback.html">Customer Reviews</a></li>
+          <li><a href="contact.html">Store Location</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Customer Care</h4>
+        <ul class="footer-links-list">
+          <li><a href="orders.html">Track My Order</a></li>
+          <li><a href="dashboard.html">Member Dashboard</a></li>
+          <li><a href="cart.html">Shopping Cart</a></li>
+          <li><a href="contact.html#faq">FAQ & Brewing Guides</a></li>
+          <li><a href="admin.html">Staff Portal</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Opening Hours</h4>
+        <p style="font-size:0.92rem; margin-bottom:0.6rem;">
+          <strong style="color:var(--cream);">Monday - Friday:</strong><br>
+          06:00 AM – 08:00 PM
+        </p>
+        <p style="font-size:0.92rem; margin-bottom:1rem;">
+          <strong style="color:var(--cream);">Saturday - Sunday:</strong><br>
+          07:00 AM – 09:00 PM
+        </p>
+        <p style="font-size:0.85rem; color:var(--caramel);">
+          <i class="fas fa-map-marker-alt"></i> 108 Pike Street, Seattle, WA
+        </p>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Coffee Corner. All rights reserved.</p>
+      <p style="font-size: 0.82rem; color: var(--cream-muted);">
+        Powered by Three.js & Vanilla Web Technologies • MySQL Ready
+      </p>
+    </div>
+  </footer>
+
+  <!-- GLOBAL SLIDE-OVER CART DRAWER -->
+  <div id="cart-drawer-overlay" class="cart-drawer-overlay">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <h3 style="font-size: 1.25rem; font-family: var(--font-serif);"><i class="fas fa-shopping-bag text-caramel"></i> Your Order</h3>
+        <button class="modal-close-btn" onclick="closeCartDrawer()"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="cart-drawer-items" class="cart-items-container"></div>
+      <div class="cart-footer">
+        <div style="display:flex; gap:0.5rem; margin-bottom:1.2rem;">
+          <input type="text" id="cart-coupon-input" placeholder="Promo code (CORNER10)" class="form-control" style="padding:0.5rem 0.8rem; font-size:0.85rem;">
+          <button class="btn btn-secondary btn-sm" onclick="handleApplyCoupon('cart-coupon-input')">Apply</button>
+        </div>
+        <div class="cart-summary-line">
+          <span>Subtotal</span>
+          <span id="cart-drawer-subtotal">$0.00</span>
+        </div>
+        <div id="cart-drawer-discount-row" class="cart-summary-line" style="display:none; color:var(--gold);">
+          <span>Promo Discount</span>
+          <span id="cart-drawer-discount">-$0.00</span>
+        </div>
+        <div class="cart-summary-line">
+          <span>Estimated Tax (10%)</span>
+          <span id="cart-drawer-tax">$0.00</span>
+        </div>
+        <div class="cart-summary-line">
+          <span>Delivery (Free over $35)</span>
+          <span id="cart-drawer-delivery">$2.50</span>
+        </div>
+        <div class="cart-summary-line total">
+          <span>Estimated Total</span>
+          <span id="cart-drawer-total" class="text-gold">$0.00</span>
+        </div>
+        <div style="display:flex; gap:0.8rem;">
+          <a href="cart.html" class="btn btn-secondary" style="flex:1;">Full Cart</a>
+          <button class="btn btn-primary" style="flex:1.4;" onclick="proceedToCheckout()">Checkout <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLOBAL DRINK CUSTOMIZATION MODAL -->
+  <div id="customizer-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 id="customizer-title" style="font-size: 1.4rem;">Customise Drink</h3>
+          <p id="customizer-base-price" style="color:var(--gold); font-weight:700; margin:0;"></p>
+        </div>
+        <button class="modal-close-btn" onclick="closeCustomizeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex; gap:1.2rem; align-items:center; margin-bottom:1.5rem; background:rgba(0,0,0,0.25); padding:0.9rem; border-radius:var(--radius-md);">
+          <img id="customizer-img" src="" alt="Drink" style="width:75px; height:75px; border-radius:var(--radius-sm); object-fit:cover;">
+          <p id="customizer-desc" style="font-size:0.88rem; color:var(--cream-muted); margin:0;"></p>
+        </div>
+
+        <!-- Cup Size -->
+        <div class="custom-option-group">
+          <label class="custom-option-label"><i class="fas fa-glass-whiskey"></i> Cup Size</label>
+          <div class="options-pill-grid">
+            <input type="radio" id="size-reg" name="cup-size" value="Regular (12oz)" class="option-pill-radio" checked onchange="handleCustomizerFormChange()">
+            <label for="size-reg" class="option-pill-label">Regular (12oz)<span>Standard</span></label>
+
+            <input type="radio" id="size-lrg" name="cup-size" value="Large (16oz)" class="option-pill-radio" onchange="handleCustomizerFormChange()">
+            <label for="size-lrg" class="option-pill-label">Large (16oz)<span>+$0.50</span></label>
+
+            <input type="radio" id="size-grd" name="cup-size" value="Grande (20oz)" class="option-pill-radio" onchange="handleCustomizerFormChange()">
+            <label for="size-grd" class="option-pill-label">Grande (20oz)<span>+$0.90</span></label>
+          </div>
+        </div>
+
+        <!-- Milk Choice -->
+        <div class="custom-option-group">
+          <label class="custom-option-label"><i class="fas fa-wine-bottle"></i> Milk Option</label>
+          <div class="options-pill-grid">
+            <input type="radio" id="milk-whole" name="milk-choice" value="Whole Milk" class="option-pill-radio" checked>
+            <label for="milk-whole" class="option-pill-label">Whole Milk</label>
+
+            <input type="radio" id="milk-oat" name="milk-choice" value="Oat Milk" class="option-pill-radio">
+            <label for="milk-oat" class="option-pill-label">Barista Oat</label>
+
+            <input type="radio" id="milk-almond" name="milk-choice" value="Almond Milk" class="option-pill-radio">
+            <label for="milk-almond" class="option-pill-label">Almond Milk</label>
+
+            <input type="radio" id="milk-coconut" name="milk-choice" value="Coconut Milk" class="option-pill-radio">
+            <label for="milk-coconut" class="option-pill-label">Coconut Milk</label>
+          </div>
+        </div>
+
+        <!-- Sweetness -->
+        <div class="custom-option-group">
+          <label class="custom-option-label"><i class="fas fa-cube"></i> Sweetness Level</label>
+          <div class="options-pill-grid">
+            <input type="radio" id="sweet-0" name="sweetness" value="0% Unsweetened" class="option-pill-radio">
+            <label for="sweet-0" class="option-pill-label">0% Pure</label>
+
+            <input type="radio" id="sweet-25" name="sweetness" value="25% Subtle" class="option-pill-radio">
+            <label for="sweet-25" class="option-pill-label">25% Subtle</label>
+
+            <input type="radio" id="sweet-50" name="sweetness" value="50% Half Sweet" class="option-pill-radio" checked>
+            <label for="sweet-50" class="option-pill-label">50% Balanced</label>
+
+            <input type="radio" id="sweet-100" name="sweetness" value="100% Full Sweet" class="option-pill-radio">
+            <label for="sweet-100" class="option-pill-label">100% Sweet</label>
+          </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.03); padding:0.85rem 1rem; border-radius:var(--radius-md); border:1px solid rgba(212,155,106,0.18); display:flex; align-items:center; justify-content:space-between;">
+          <div>
+            <strong style="font-size:0.92rem; color:var(--cream);">Add Extra Single-Origin Espresso Shot</strong>
+            <div style="font-size:0.78rem; color:var(--caramel);">+$0.85</div>
+          </div>
+          <input type="checkbox" id="custom-extra-shot" style="width:20px; height:20px; accent-color:var(--caramel);" onchange="handleCustomizerFormChange()">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div style="margin-right:auto;">
+          <span style="font-size:0.85rem; color:var(--cream-muted);">Total Price:</span>
+          <span id="customizer-calculated-price" style="font-size:1.35rem; font-weight:800; color:var(--gold); margin-left:0.4rem;">$0.00</span>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="closeCustomizeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="submitCustomizedItemToCart()"><i class="fas fa-cart-plus"></i> Add to Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLOBAL AUTH MODAL (LOGIN & SIGN UP) -->
+  <div id="auth-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <div class="logo-icon" style="width:32px; height:32px; font-size:0.9rem;"><i class="fas fa-coffee"></i></div>
+          <h3 style="font-size:1.35rem;">Coffee Corner Portal</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeAuthModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <div id="auth-guest-notice" style="display:none; background:rgba(212,155,106,0.15); border:1px solid var(--caramel); padding:0.9rem; border-radius:var(--radius-md); margin-bottom:1.4rem;">
+          <div style="display:flex; gap:0.7rem; align-items:center;">
+            <i class="fas fa-info-circle text-caramel" style="font-size:1.3rem;"></i>
+            <span style="font-size:0.88rem; color:var(--cream);">
+              You can freely browse Coffee Corner as a guest! Please sign in or create an account to finalize your order.
+            </span>
+          </div>
+        </div>
+
+        <div style="display:flex; background:rgba(0,0,0,0.3); border-radius:var(--radius-full); padding:0.3rem; margin-bottom:1.5rem; border:1px solid rgba(212,155,106,0.2);">
+          <button id="tab-btn-login" class="btn btn-sm active" style="flex:1; border-radius:var(--radius-full);" onclick="switchAuthTab('login')">Sign In</button>
+          <button id="tab-btn-register" class="btn btn-sm" style="flex:1; border-radius:var(--radius-full);" onclick="switchAuthTab('register')">Create Account</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="auth-login-form" onsubmit="handleCustomerLogin(event)">
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="login-email" required class="form-control" placeholder="sarah@coffeecorner.com">
+          </div>
+          <div class="form-group">
+            <div style="display:flex; justify-content:space-between;">
+              <label class="form-label">Password</label>
+              <a href="#" onclick="showToast('Demo password: password123'); return false;" style="font-size:0.78rem; color:var(--caramel);">Forgot?</a>
+            </div>
+            <input type="password" id="login-password" required class="form-control" placeholder="••••••••">
+          </div>
+
+          <div style="margin-bottom:1.3rem;">
+            <button type="button" class="btn btn-secondary btn-sm" style="width:100%; border-style:dashed;" onclick="fillDemoCustomerLogin()">
+              <i class="fas fa-magic text-caramel"></i> 1-Click Demo Login (Sarah Jenkins)
+            </button>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%;">Sign In</button>
+        </form>
+
+        <!-- Register Form -->
+        <form id="auth-register-form" style="display:none;" onsubmit="handleCustomerRegister(event)">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="reg-fullname" required class="form-control" placeholder="Sarah Jenkins">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="reg-email" required class="form-control" placeholder="name@domain.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="reg-password" required class="form-control" placeholder="At least 6 characters">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" id="reg-phone" class="form-control" placeholder="+1 (555) 000-0000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Delivery Address</label>
+            <input type="text" id="reg-address" class="form-control" placeholder="Street Address, City, State">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">Create Account & Get 100 Beans</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/three-hero.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const grid = document.getElementById('featured-products-grid');
+      if (!grid) return;
+
+      const featuredItems = window.DB.getMenuItems({ featuredOnly: true }).slice(0, 4);
+      grid.innerHTML = featuredItems.map(item => `
+        <div class="product-card">
+          ${item.is_bestseller ? '<span class="product-card-badge"><i class="fas fa-crown"></i> Bestseller</span>' : ''}
+          <div class="product-image-container">
+            <img src="${item.image_url}" alt="${item.name}" class="product-image">
+            <button class="product-quick-view-btn" onclick="openCustomizeModal(${item.item_id})" title="Customise Drink">
+              <i class="fas fa-sliders-h"></i>
+            </button>
+          </div>
+          <div class="product-body">
+            <div class="product-category">${item.roast_level} Roast • ${item.calories} Cal</div>
+            <h4 class="product-title">${item.name}</h4>
+            <p class="product-desc">${item.description}</p>
+            <div class="product-tags">
+              ${item.flavor_notes ? item.flavor_notes.split(',').map(n => `<span class="tag-pill">${n.trim()}</span>`).join('') : ''}
+            </div>
+            <div class="product-footer">
+              <span class="product-price">$${item.price.toFixed(2)}</span>
+              <button class="btn btn-primary btn-sm" onclick="openCustomizeModal(${item.item_id})">
+                <i class="fas fa-plus"></i> Customise
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    });
+  </script>
+</body>
+</html>

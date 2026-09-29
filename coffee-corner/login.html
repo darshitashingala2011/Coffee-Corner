@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Sign In & Register | Coffee Corner</title>
+  <meta name="description" content="Sign in or register for Coffee Corner. Enjoy loyalty bean rewards, saved addresses, and express checkout.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- SITE HEADER & NAVIGATION -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-icon"><i class="fas fa-coffee"></i></div>
+        <span>Coffee <span class="accent">Corner</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="feedback.html">Reviews</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="admin.html" style="color: var(--caramel);"><i class="fas fa-lock" style="font-size:0.75rem; margin-right:4px;"></i>Admin</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="nav-user-btn" class="nav-action-btn" onclick="handleNavUserClick()" title="My Account">
+          <i class="fas fa-user"></i>
+        </button>
+        <button class="nav-action-btn" onclick="openCartDrawer()" title="View Cart">
+          <i class="fas fa-shopping-bag"></i>
+          <span id="cart-badge" class="badge-counter" style="display:none;">0</span>
+        </button>
+        <button class="mobile-menu-toggle" aria-label="Toggle navigation menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 7.5rem; min-height: 85vh; display: flex; align-items: center;">
+    <div class="container" style="max-width: 540px; margin: 0 auto; padding-bottom: 4rem;">
+      
+      <!-- Guest Notice Banner -->
+      <div class="glass-panel" style="padding: 1.2rem 1.6rem; margin-bottom: 1.5rem; border-color: rgba(212,155,106,0.3); display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 0.8rem;">
+          <i class="fas fa-compass text-caramel" style="font-size: 1.4rem;"></i>
+          <span style="font-size: 0.88rem; color: var(--cream-soft);">Just browsing? Guests can freely explore our menu!</span>
+        </div>
+        <a href="menu.html" class="btn btn-secondary btn-sm">Explore Menu</a>
+      </div>
+
+      <!-- Auth Card -->
+      <div class="glass-panel" style="padding: 2.5rem; border-color: rgba(212,155,106,0.35); box-shadow: var(--shadow-lg);">
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <div class="logo-icon" style="width: 52px; height: 52px; margin: 0 auto 1rem; font-size: 1.4rem;">
+            <i class="fas fa-coffee"></i>
+          </div>
+          <h2 style="font-size: 1.8rem; margin-bottom: 0.4rem;">Welcome to Coffee Corner</h2>
+          <p style="font-size: 0.92rem; color: var(--cream-muted);">Access your Bean Rewards, order history, and saved preferences.</p>
+        </div>
+
+        <!-- Auth Tabs Toggle -->
+        <div style="display: flex; background: rgba(0,0,0,0.35); border-radius: var(--radius-full); padding: 0.35rem; margin-bottom: 2rem; border: 1px solid rgba(212,155,106,0.2);">
+          <button id="page-tab-login" class="btn btn-sm btn-primary" style="flex: 1; border-radius: var(--radius-full);" onclick="togglePageAuthTab('login')">Sign In</button>
+          <button id="page-tab-register" class="btn btn-sm btn-secondary" style="flex: 1; border-radius: var(--radius-full);" onclick="togglePageAuthTab('register')">Create Account</button>
+        </div>
+
+        <!-- Sign In Form -->
+        <form id="page-login-form" onsubmit="handleCustomerLogin(event)">
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="login-email" required class="form-control" placeholder="sarah@coffeecorner.com">
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <label class="form-label">Password</label>
+              <a href="#" onclick="showToast('Demo hint: Password is password123'); return false;" style="font-size: 0.78rem; color: var(--caramel);">Forgot Password?</a>
+            </div>
+            <input type="password" id="login-password" required class="form-control" placeholder="••••••••">
+          </div>
+
+          <!-- Quick 1-Click Demo Login Banner -->
+          <div style="margin-bottom: 1.5rem;">
+            <button type="button" class="btn btn-secondary btn-sm" style="width: 100%; border-style: dashed; padding: 0.65rem;" onclick="fillDemoCustomerLogin()">
+              <i class="fas fa-magic text-caramel"></i> 1-Click Demo Login: Sarah Jenkins
+            </button>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: 1.5rem;">
+            <i class="fas fa-arrow-right-to-bracket"></i> Sign In to Account
+          </button>
+        </form>
+
+        <!-- Register Form -->
+        <form id="page-register-form" style="display: none;" onsubmit="handleCustomerRegister(event)">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="reg-fullname" required class="form-control" placeholder="Sarah Jenkins">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="reg-email" required class="form-control" placeholder="name@domain.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="reg-password" required class="form-control" placeholder="Create secure password">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Phone Number (Optional for SMS updates)</label>
+            <input type="tel" id="reg-phone" class="form-control" placeholder="+1 (555) 000-0000">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Default Delivery Address</label>
+            <input type="text" id="reg-address" class="form-control" placeholder="742 Evergreen Terrace, Seattle, WA">
+          </div>
+
+          <div style="background: rgba(229,185,103,0.1); border: 1px solid rgba(229,185,103,0.25); border-radius: var(--radius-md); padding: 0.85rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem;">
+            <i class="fas fa-gift text-gold" style="font-size: 1.3rem;"></i>
+            <span style="font-size: 0.82rem; color: var(--cream);">
+              You will automatically receive <strong>100 Welcome Beans</strong> towards free drinks upon registration!
+            </span>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: 1.5rem;">
+            <i class="fas fa-user-plus"></i> Join the Bean Club
+          </button>
+        </form>
+
+        <!-- Separate Admin Portal Link -->
+        <div style="text-align: center; border-top: 1px solid rgba(212,155,106,0.15); padding-top: 1.5rem;">
+          <a href="admin.html" style="font-size: 0.85rem; color: var(--caramel); font-weight: 600;">
+            <i class="fas fa-shield-alt"></i> Staff or Administrator? Go to Admin Portal &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand-logo">
+          <div class="logo-icon"><i class="fas fa-coffee"></i></div>
+          <span>Coffee <span class="accent">Corner</span></span>
+        </a>
+        <p>Your daily haven for specialty roasted coffees, slow-steeped cold brews, artisan teas, and artisanal baked treats.</p>
+      </div>
+      <div class="footer-column">
+        <h4>Navigation</h4>
+        <ul class="footer-links-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Products & Menu</a></li>
+          <li><a href="about.html">About Coffee Corner</a></li>
+          <li><a href="feedback.html">Customer Reviews</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Customer Care</h4>
+        <ul class="footer-links-list">
+          <li><a href="orders.html">Track My Order</a></li>
+          <li><a href="cart.html">View Cart</a></li>
+          <li><a href="contact.html">Store Location</a></li>
+          <li><a href="admin.html">Staff Portal</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Opening Hours</h4>
+        <p style="font-size:0.92rem; margin-bottom:0.5rem;">Mon - Fri: 06:00 AM – 08:00 PM</p>
+        <p style="font-size:0.92rem; margin-bottom:0.5rem;">Sat - Sun: 07:00 AM – 09:00 PM</p>
+        <p style="font-size:0.85rem; color:var(--caramel);"><i class="fas fa-map-marker-alt"></i> 108 Pike Street, Seattle, WA</p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Coffee Corner. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    function togglePageAuthTab(tab) {
+      const loginForm = document.getElementById('page-login-form');
+      const regForm = document.getElementById('page-register-form');
+      const tabLogin = document.getElementById('page-tab-login');
+      const tabReg = document.getElementById('page-tab-register');
+
+      if (tab === 'login') {
+        loginForm.style.display = 'block';
+        regForm.style.display = 'none';
+        tabLogin.className = 'btn btn-sm btn-primary';
+        tabReg.className = 'btn btn-sm btn-secondary';
+      } else {
+        loginForm.style.display = 'none';
+        regForm.style.display = 'block';
+        tabLogin.className = 'btn btn-sm btn-secondary';
+        tabReg.className = 'btn btn-sm btn-primary';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = window.DB.getCurrentUser();
+      if (user) {
+        window.location.href = 'dashboard.html';
+      }
+    });
+  </script>
+</body>
+</html>

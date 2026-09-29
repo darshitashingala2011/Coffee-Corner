@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Dashboard | Coffee Corner</title>
+  <meta name="description" content="Manage your Coffee Corner profile, track loyalty beans, review order statistics, and check recent deliveries.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- SITE HEADER & NAVIGATION -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-icon"><i class="fas fa-coffee"></i></div>
+        <span>Coffee <span class="accent">Corner</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="feedback.html">Reviews</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="admin.html" style="color: var(--caramel);"><i class="fas fa-lock" style="font-size:0.75rem; margin-right:4px;"></i>Admin</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="nav-user-btn" class="nav-action-btn" onclick="handleNavUserClick()" title="My Account">
+          <i class="fas fa-user-check text-caramel"></i>
+        </button>
+        <button class="nav-action-btn" onclick="openCartDrawer()" title="View Cart">
+          <i class="fas fa-shopping-bag"></i>
+          <span id="cart-badge" class="badge-counter" style="display:none;">0</span>
+        </button>
+        <button class="mobile-menu-toggle" aria-label="Toggle navigation menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 7.5rem; min-height: 80vh;">
+    <div class="container" style="margin-bottom: 5rem;">
+      
+      <!-- USER PROFILE HEADER -->
+      <div class="glass-panel" style="padding: 2.2rem; margin-bottom: 2.5rem; border-color: rgba(212,155,106,0.35);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+          <div style="display: flex; align-items: center; gap: 1.4rem;">
+            <div style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--caramel), var(--coffee-dark)); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 800; color: #120703; box-shadow: 0 0 20px rgba(212,155,106,0.4);">
+              <span id="dash-avatar-initials">SJ</span>
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.2rem;">
+                <h2 id="dash-user-name" style="font-size: 1.6rem; margin: 0;">Sarah Jenkins</h2>
+                <span class="promo-badge" style="margin: 0; padding: 0.2rem 0.6rem; font-size: 0.72rem;">Gold Connoisseur</span>
+              </div>
+              <p id="dash-user-email" style="font-size: 0.9rem; color: var(--cream-muted); margin-bottom: 0.2rem;">sarah@coffeecorner.com</p>
+              <span style="font-size: 0.78rem; color: var(--caramel);"><i class="fas fa-calendar-check"></i> Coffee Corner Club Member</span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+            <a href="orders.html" class="btn btn-secondary btn-sm"><i class="fas fa-receipt"></i> Order History</a>
+            <button class="btn btn-outline-gold btn-sm" onclick="handleCustomerLogout()"><i class="fas fa-arrow-right-from-bracket"></i> Sign Out</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CUSTOMER ORDER STATISTICS CARDS -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+        <div class="glass-panel" style="padding: 1.5rem; text-align: center;">
+          <span style="font-size: 0.8rem; color: var(--cream-muted); text-transform: uppercase; font-weight: 700;">Total Orders Placed</span>
+          <div id="dash-stat-orders" style="font-size: 2.2rem; font-weight: 800; color: var(--caramel); margin-top: 0.4rem;">2 Orders</div>
+        </div>
+        <div class="glass-panel" style="padding: 1.5rem; text-align: center;">
+          <span style="font-size: 0.8rem; color: var(--cream-muted); text-transform: uppercase; font-weight: 700;">Total Spent</span>
+          <div id="dash-stat-spent" style="font-size: 2.2rem; font-weight: 800; color: var(--gold); margin-top: 0.4rem;">$33.28</div>
+        </div>
+        <div class="glass-panel" style="padding: 1.5rem; text-align: center;">
+          <span style="font-size: 0.8rem; color: var(--cream-muted); text-transform: uppercase; font-weight: 700;">Loyalty Reward Beans</span>
+          <div id="dash-stat-beans" style="font-size: 2.2rem; font-weight: 800; color: var(--cream); margin-top: 0.4rem;">480 Beans</div>
+        </div>
+        <div class="glass-panel" style="padding: 1.5rem; text-align: center;">
+          <span style="font-size: 0.8rem; color: var(--cream-muted); text-transform: uppercase; font-weight: 700;">Favorite Beverage</span>
+          <div style="font-size: 1.15rem; font-weight: 700; color: var(--caramel-light); margin-top: 0.8rem;">Caramel Macchiato</div>
+        </div>
+      </div>
+
+      <!-- DASHBOARD GRID: REWARDS + RECENT ORDERS -->
+      <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 2.5rem; margin-bottom: 3rem;">
+        
+        <!-- COLUMN 1: VIP BEAN REWARDS & SAVED ADDRESS -->
+        <div style="display: flex; flex-direction: column; gap: 2rem;">
+          <div class="glass-panel" style="padding: 2.2rem; border-color: rgba(229,185,103,0.3); background: linear-gradient(135deg, rgba(32,18,10,0.85), rgba(18,9,4,0.92));">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
+              <span class="section-tag" style="margin: 0;"><i class="fas fa-crown"></i> Bean Rewards</span>
+              <span style="font-size: 0.85rem; color: var(--gold); font-weight: 700;">Gold Tier</span>
+            </div>
+
+            <div style="display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <h1 id="dash-loyalty-points" style="font-size: 3.2rem; font-weight: 800; color: var(--gold); margin: 0;">480</h1>
+              <span style="color: var(--cream-muted); font-size: 1.1rem; font-weight: 600;">Beans</span>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--cream-soft); margin-bottom: 1.5rem;">
+              Earn 10 Beans for every $1.00 spent. 120 more Beans to unlock a <strong>Free 250g Whole Bean Reserve Bag</strong>!
+            </p>
+
+            <!-- Progress Bar -->
+            <div style="background: rgba(255,255,255,0.1); height: 8px; border-radius: 9999px; overflow: hidden; margin-bottom: 1.8rem;">
+              <div style="background: linear-gradient(90deg, var(--caramel), var(--gold)); width: 80%; height: 100%; border-radius: 9999px;"></div>
+            </div>
+
+            <!-- Redeemable Rewards List -->
+            <h4 style="font-size: 1.05rem; margin-bottom: 1rem; color: var(--cream);">Redeem Rewards</h4>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(212,155,106,0.15); border-radius: var(--radius-md); padding: 0.8rem 1rem; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                  <strong style="font-size: 0.88rem; display: block; color: var(--cream);">Fresh Normandy Croissant</strong>
+                  <span style="font-size: 0.78rem; color: var(--caramel);">200 Beans</span>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="showToast('200 Beans redeemed for French Croissant! Applied to cart.')">Redeem</button>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(212,155,106,0.15); border-radius: var(--radius-md); padding: 0.8rem 1rem; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                  <strong style="font-size: 0.88rem; display: block; color: var(--cream);">Any Artisanal Latte (16oz)</strong>
+                  <span style="font-size: 0.78rem; color: var(--caramel);">350 Beans</span>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="showToast('350 Beans redeemed for Artisanal Latte voucher!')">Redeem</button>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(212,155,106,0.15); border-radius: var(--radius-md); padding: 0.8rem 1rem; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                  <strong style="font-size: 0.88rem; display: block; color: var(--cream);">250g Whole Bean Reserve</strong>
+                  <span style="font-size: 0.78rem; color: var(--cream-muted);">500 Beans (Need 20 more)</span>
+                </div>
+                <button class="btn btn-secondary btn-sm" disabled style="opacity: 0.5;">Locked</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SAVED ADDRESSES -->
+          <div class="glass-panel" style="padding: 2.2rem;">
+            <h3 style="font-size: 1.2rem; margin-bottom: 1.2rem;">
+              <i class="fas fa-location-dot text-caramel"></i> Default Delivery Profile
+            </h3>
+            <form onsubmit="handleUpdateAddress(event)">
+              <div class="form-group">
+                <label class="form-label">Shipping Address</label>
+                <textarea id="dash-address" rows="3" class="form-control">742 Evergreen Terrace, Apt 4B, Seattle, WA</textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone for Delivery SMS</label>
+                <input type="text" id="dash-phone" class="form-control" value="+1 (555) 349-8821">
+              </div>
+              <button type="submit" class="btn btn-secondary btn-sm">Save Changes</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- COLUMN 2: RECENT ORDERS & QUICK LINKS -->
+        <div style="display: flex; flex-direction: column; gap: 2rem;">
+          <div class="glass-panel" style="padding: 2.2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+              <h3 style="font-size: 1.35rem; margin: 0;"><i class="fas fa-receipt text-caramel"></i> Recent Orders</h3>
+              <a href="orders.html" style="font-size: 0.85rem; color: var(--caramel);">View All &rarr;</a>
+            </div>
+
+            <div id="dash-orders-container" style="display: flex; flex-direction: column; gap: 1.4rem;">
+              <!-- Dynamically populated via JS -->
+            </div>
+          </div>
+
+          <!-- Quick Navigation Links -->
+          <div class="glass-panel" style="padding: 1.8rem;">
+            <h4 style="font-size: 1.1rem; margin-bottom: 1rem;"><i class="fas fa-bolt text-gold"></i> Quick Actions</h4>
+            <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+              <a href="menu.html" class="btn btn-secondary btn-sm"><i class="fas fa-coffee"></i> Browse Menu</a>
+              <a href="cart.html" class="btn btn-secondary btn-sm"><i class="fas fa-shopping-bag"></i> View Cart</a>
+              <a href="orders.html" class="btn btn-secondary btn-sm"><i class="fas fa-radar"></i> Live Tracking</a>
+              <a href="feedback.html" class="btn btn-secondary btn-sm"><i class="fas fa-star"></i> Leave Review</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Coffee Corner. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- GLOBAL SLIDE-OVER CART DRAWER -->
+  <div id="cart-drawer-overlay" class="cart-drawer-overlay">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <h3 style="font-size: 1.25rem; font-family: var(--font-serif);"><i class="fas fa-shopping-bag text-caramel"></i> Your Order</h3>
+        <button class="modal-close-btn" onclick="closeCartDrawer()"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="cart-drawer-items" class="cart-items-container"></div>
+      <div class="cart-footer">
+        <div class="cart-summary-line total">
+          <span>Estimated Total</span>
+          <span id="cart-drawer-total" class="text-gold">$0.00</span>
+        </div>
+        <div style="display:flex; gap:0.8rem;">
+          <a href="cart.html" class="btn btn-secondary" style="flex:1;">Full Cart</a>
+          <button class="btn btn-primary" style="flex:1.4;" onclick="proceedToCheckout()">Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let user = window.DB.getCurrentUser();
+      
+      if (!user) {
+        const res = window.DB.login('sarah@coffeecorner.com', 'password123');
+        if (res.success) {
+          user = res.user;
+          showToast('Signed in as demo customer: Sarah Jenkins', 'info');
+        }
+      }
+
+      if (user) {
+        document.getElementById('dash-user-name').textContent = user.full_name;
+        document.getElementById('dash-user-email').textContent = user.email;
+        document.getElementById('dash-avatar-initials').textContent = user.full_name.split(' ').map(n=>n[0]).join('');
+        document.getElementById('dash-loyalty-points').textContent = user.loyalty_points || 480;
+        document.getElementById('dash-stat-beans').textContent = `${user.loyalty_points || 480} Beans`;
+        if (user.address) document.getElementById('dash-address').value = user.address;
+        if (user.phone) document.getElementById('dash-phone').value = user.phone;
+
+        renderDashboardOrders(user.customer_id);
+      }
+    });
+
+    function renderDashboardOrders(customerId) {
+      const container = document.getElementById('dash-orders-container');
+      if (!container) return;
+
+      const orders = window.DB.getOrders(customerId);
+      const totalSpent = orders.reduce((sum, o) => sum + o.total_amount, 0);
+      
+      const ordersStatEl = document.getElementById('dash-stat-orders');
+      const spentStatEl = document.getElementById('dash-stat-spent');
+      if (ordersStatEl) ordersStatEl.textContent = `${orders.length} Orders`;
+      if (spentStatEl) spentStatEl.textContent = `$${totalSpent.toFixed(2)}`;
+
+      if (orders.length === 0) {
+        container.innerHTML = `<p style="color:var(--cream-muted);">No orders placed yet. Explore our menu to place your first order!</p>`;
+        return;
+      }
+
+      container.innerHTML = orders.slice(0, 3).map(order => {
+        let badgeColor = 'var(--warning)';
+        if (order.order_status === 'Delivered') badgeColor = 'var(--success-green)';
+        if (order.order_status === 'Preparing') badgeColor = 'var(--caramel)';
+
+        return `
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(212,155,106,0.18); border-radius: var(--radius-md); padding: 1.3rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+              <div>
+                <strong style="color: var(--cream); font-size: 1.05rem;">Order #${order.order_number}</strong>
+                <span style="font-size: 0.78rem; color: var(--cream-muted); display: block;">${new Date(order.created_at).toLocaleDateString()}</span>
+              </div>
+              <span style="background: rgba(0,0,0,0.4); border: 1px solid ${badgeColor}; color: ${badgeColor}; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700;">
+                ${order.order_status}
+              </span>
+            </div>
+
+            <div style="font-size: 0.88rem; color: var(--cream-soft); margin-bottom: 1rem;">
+              ${order.items.map(i => `${i.quantity}x ${i.item_name} (${i.cup_size || 'Reg'})`).join(', ')}
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.8rem;">
+              <span style="font-size: 1.1rem; font-weight: 800; color: var(--gold);">$${order.total_amount.toFixed(2)}</span>
+              <div style="display: flex; gap: 0.5rem;">
+                <a href="orders.html" class="btn btn-secondary btn-sm">Track</a>
+                <button class="btn btn-primary btn-sm" onclick="reorderItems(${order.order_id})"><i class="fas fa-redo"></i> Reorder</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function reorderItems(orderId) {
+      const order = window.DB.getOrderById(orderId);
+      if (!order) return;
+      order.items.forEach(i => {
+        const menuItem = window.DB.getMenuItemById(i.item_id);
+        if (menuItem) {
+          window.DB.addToCart(menuItem, {
+            cup_size: i.cup_size,
+            milk_choice: i.milk_choice,
+            sweetness: i.sweetness
+          }, i.quantity);
+        }
+      });
+      showToast('Items added to cart!');
+      openCartDrawer();
+    }
+
+    function handleUpdateAddress(e) {
+      e.preventDefault();
+      const user = window.DB.getCurrentUser();
+      if (!user) return;
+      const address = document.getElementById('dash-address').value;
+      const phone = document.getElementById('dash-phone').value;
+
+      window.DB.updateCustomer(user.customer_id, { address, phone });
+      showToast('Delivery profile updated successfully!');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmed | Coffee Corner</title>
+  <meta name="description" content="Your artisanal coffee order has been placed. We are dialing in the beans and preparing your fresh brew.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    /* Animated Success Checkmark */
+    .success-check-circle {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(52, 211, 153, 0.2), rgba(212, 155, 106, 0.2));
+      border: 2px solid var(--success-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem auto;
+      color: var(--success-green);
+      font-size: 3rem;
+      box-shadow: 0 0 35px rgba(52, 211, 153, 0.35);
+      animation: checkPulse 2s infinite ease-in-out;
+    }
+    @keyframes checkPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(52, 211, 153, 0.3); }
+      50% { transform: scale(1.06); box-shadow: 0 0 45px rgba(52, 211, 153, 0.55); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SITE HEADER & NAVIGATION -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-icon"><i class="fas fa-coffee"></i></div>
+        <span>Coffee <span class="accent">Corner</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="orders.html">My Orders</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="menu.html" class="btn btn-secondary btn-sm">Explore More</a>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 7.5rem; min-height: 85vh; display: flex; align-items: center;">
+    <div class="container" style="max-width: 680px; margin: 0 auto; padding-bottom: 5rem;">
+      
+      <div class="glass-panel" style="padding: 3rem 2.5rem; text-align: center; border-color: rgba(52, 211, 153, 0.4); box-shadow: var(--shadow-lg);">
+        
+        <!-- Animated Success Circle -->
+        <div class="success-check-circle">
+          <i class="fas fa-check"></i>
+        </div>
+
+        <div class="section-tag" style="background: rgba(52, 211, 153, 0.15); border-color: var(--success-green); color: var(--success-green); margin-bottom: 0.8rem;">
+          <i class="fas fa-mug-hot"></i> Fresh Roast Dialed In
+        </div>
+
+        <h1 style="font-size: 2.2rem; margin-bottom: 0.4rem;">Order Placed Successfully!</h1>
+        <p style="font-size: 1.05rem; color: var(--cream-soft); margin-bottom: 1.8rem;">
+          Our baristas have received your ticket and are grinding your single-origin beans.
+        </p>
+
+        <!-- Order Metadata Pill -->
+        <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(212,155,106,0.25); border-radius: var(--radius-md); padding: 1.2rem 1.6rem; margin-bottom: 2rem; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <span style="font-size: 0.78rem; color: var(--cream-muted); text-transform: uppercase;">Order Number</span>
+            <div id="confirmed-order-num" style="font-size: 1.25rem; font-weight: 800; color: var(--gold); letter-spacing: 0.05em;">CC-90412</div>
+          </div>
+          <div>
+            <span style="font-size: 0.78rem; color: var(--cream-muted); text-transform: uppercase;">Estimated Arrival</span>
+            <div id="countdown-timer" style="font-size: 1.25rem; font-weight: 800; color: var(--caramel);">24:59 mins</div>
+          </div>
+          <div>
+            <span style="font-size: 0.78rem; color: var(--cream-muted); text-transform: uppercase;">Beans Earned</span>
+            <div id="confirmed-beans-earned" style="font-size: 1.25rem; font-weight: 800; color: var(--success-green);">+170 Beans</div>
+          </div>
+        </div>
+
+        <!-- Receipt Details Accordion / Summary -->
+        <div id="confirmed-order-receipt" style="text-align: left; background: rgba(255,255,255,0.02); border: 1px solid rgba(212,155,106,0.15); border-radius: var(--radius-md); padding: 1.4rem; margin-bottom: 2.2rem;">
+          <h4 style="font-size: 1.05rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(212,155,106,0.15); padding-bottom: 0.5rem;">
+            Order Breakdown
+          </h4>
+          <div id="confirmed-items-list" style="display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1rem;">
+            <!-- Dynamically populated -->
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 800; color: var(--gold); border-top: 1px solid rgba(212,155,106,0.2); padding-top: 0.8rem;">
+            <span>Total Paid</span>
+            <span id="confirmed-total">$0.00</span>
+          </div>
+        </div>
+
+        <!-- Action CTAs -->
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="orders.html" class="btn btn-primary btn-lg">
+            <i class="fas fa-radar"></i> Track Order in Real-Time
+          </a>
+          <button class="btn btn-secondary btn-lg" onclick="window.print()">
+            <i class="fas fa-receipt"></i> Print Receipt
+          </button>
+          <a href="menu.html" class="btn btn-secondary btn-lg">
+            Back to Menu
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Coffee Corner Artisanal Coffee. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Database Service -->
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/app.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Fire celebration confetti
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#d49b6a', '#e5b967', '#fcf9f2', '#b87b46']
+        });
+      }
+
+      // Read query params for order
+      const params = new URLSearchParams(window.location.search);
+      const orderNumParam = params.get('orderNum');
+      const orderIdParam = params.get('orderId');
+
+      let order = null;
+      if (orderNumParam) {
+        order = window.DB.getOrderById(orderNumParam);
+      } else if (orderIdParam) {
+        order = window.DB.getOrderById(orderIdParam);
+      } else {
+        const allOrders = window.DB.getOrders();
+        if (allOrders.length) order = allOrders[0];
+      }
+
+      if (order) {
+        document.getElementById('confirmed-order-num').textContent = order.order_number;
+        document.getElementById('confirmed-total').textContent = `$${order.total_amount.toFixed(2)}`;
+        document.getElementById('confirmed-beans-earned').textContent = `+${Math.floor(order.total_amount * 10)} Beans`;
+
+        const itemsList = document.getElementById('confirmed-items-list');
+        itemsList.innerHTML = order.items.map(i => `
+          <div style="display:flex; justify-content:space-between; font-size:0.9rem;">
+            <span>${i.quantity}x ${i.item_name} <small style="color:var(--cream-muted);">(${i.cup_size || 'Reg'})</small></span>
+            <span style="font-weight:600; color:var(--cream);">$${i.subtotal.toFixed(2)}</span>
+          </div>
+        `).join('');
+      }
+
+      // Live 25-minute preparation countdown timer
+      let timeLeft = 25 * 60;
+      const timerEl = document.getElementById('countdown-timer');
+      setInterval(() => {
+        if (timeLeft > 0) {
+          timeLeft--;
+          const m = Math.floor(timeLeft / 60);
+          const s = timeLeft % 60;
+          timerEl.textContent = `${m}:${s < 10 ? '0' : ''}${s} mins`;
+        } else {
+          timerEl.textContent = 'Arrived!';
+        }
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

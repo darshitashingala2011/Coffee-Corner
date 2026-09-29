@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff & Operations Portal | Coffee Corner Admin</title>
+  <meta name="description" content="Secure administrative control panel for Coffee Corner coffee shop order fulfillment, menu management, and staff scheduling.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    /* Admin Specific Styling */
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+    .admin-sidebar {
+      background: #0b0704;
+      border-right: 1px solid rgba(212, 155, 106, 0.18);
+      padding: 1.8rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .admin-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius-md);
+      color: var(--cream-muted);
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      margin-bottom: 0.35rem;
+    }
+    .admin-nav-item:hover, .admin-nav-item.active {
+      background: rgba(212, 155, 106, 0.15);
+      color: var(--caramel-light);
+      border: 1px solid rgba(212, 155, 106, 0.3);
+    }
+    .admin-content {
+      padding: 2rem 2.5rem;
+      background: #110a06;
+      overflow-y: auto;
+    }
+    .kpi-card {
+      background: rgba(28, 17, 11, 0.8);
+      border: 1px solid rgba(212, 155, 106, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 1.6rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .table-responsive {
+      overflow-x: auto;
+      width: 100%;
+    }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    .admin-table th {
+      padding: 1rem 0.9rem;
+      border-bottom: 1px solid rgba(212, 155, 106, 0.2);
+      color: var(--cream-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+    }
+    .admin-table td {
+      padding: 1rem 0.9rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--cream-soft);
+      vertical-align: middle;
+    }
+    .admin-table tr:hover td {
+      background: rgba(212, 155, 106, 0.05);
+    }
+    .status-select {
+      background: rgba(0, 0, 0, 0.4);
+      color: var(--cream);
+      border: 1px solid rgba(212, 155, 106, 0.3);
+      padding: 0.35rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    @media (max-width: 900px) {
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+      .admin-sidebar {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ADMIN LOGIN VIEW (Shown if not authenticated) -->
+  <div id="admin-login-screen" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+    <div class="glass-panel" style="max-width: 480px; width: 100%; padding: 2.8rem; border-color: rgba(212,155,106,0.35);">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div class="logo-icon" style="width: 55px; height: 55px; margin: 0 auto 1.2rem; font-size: 1.5rem;">
+          <i class="fas fa-lock"></i>
+        </div>
+        <h2 style="font-size: 1.8rem; margin-bottom: 0.4rem;">Staff & Admin Gateway</h2>
+        <p style="font-size: 0.9rem; color: var(--cream-muted);">Authorized personnel access only.</p>
+      </div>
+
+      <!-- Demo Credentials Notice -->
+      <div style="background: rgba(229,185,103,0.12); border: 1px solid var(--gold); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.8rem;">
+        <div style="font-size: 0.82rem; color: var(--gold); font-weight: 700; margin-bottom: 0.3rem;"><i class="fas fa-key"></i> DEMO CREDENTIALS:</div>
+        <div style="font-size: 0.85rem; color: var(--cream);">Email: <strong>admin@coffeecorner.com</strong></div>
+        <div style="font-size: 0.85rem; color: var(--cream);">Password: <strong>admin123</strong></div>
+      </div>
+
+      <form onsubmit="handleAdminLoginSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">Admin Email</label>
+          <input type="email" id="admin-input-email" required class="form-control" value="admin@coffeecorner.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="admin-input-pass" required class="form-control" value="admin123">
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: 1.2rem;">
+          <i class="fas fa-shield-alt"></i> Access Admin Portal
+        </button>
+      </form>
+
+      <div style="text-align: center;">
+        <a href="index.html" style="font-size: 0.85rem; color: var(--cream-muted);"><i class="fas fa-arrow-left"></i> Return to Customer Website</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN MAIN DASHBOARD (Shown once authenticated) -->
+  <div id="admin-main-screen" style="display: none;" class="admin-layout">
+    
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 2rem; padding: 0 0.5rem;">
+        <div class="logo-icon" style="width: 36px; height: 36px; font-size: 1rem;"><i class="fas fa-coffee"></i></div>
+        <div>
+          <h3 style="font-size: 1.2rem; margin: 0; line-height: 1;">Coffee <span style="color:var(--caramel);">Corner</span></h3>
+          <span style="font-size: 0.72rem; color: var(--gold); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;">Operations Control</span>
+        </div>
+      </div>
+
+      <nav style="flex-grow: 1;">
+        <div class="admin-nav-item active" onclick="switchAdminSection('overview')">
+          <i class="fas fa-chart-line"></i> Dashboard Overview
+        </div>
+        <div class="admin-nav-item" onclick="switchAdminSection('orders')">
+          <i class="fas fa-receipt"></i> Orders Management
+        </div>
+        <div class="admin-nav-item" onclick="switchAdminSection('menu')">
+          <i class="fas fa-mug-hot"></i> Menu & Catalog
+        </div>
+        <div class="admin-nav-item" onclick="switchAdminSection('reviews')">
+          <i class="fas fa-star"></i> Customer Feedback
+        </div>
+        <div class="admin-nav-item" onclick="switchAdminSection('employees')">
+          <i class="fas fa-users-gear"></i> Staff & Shifts
+        </div>
+        <div class="admin-nav-item" onclick="switchAdminSection('payments')">
+          <i class="fas fa-credit-card"></i> Customers & Payments
+        </div>
+      </nav>
+
+      <div style="border-top: 1px solid rgba(212,155,106,0.18); padding-top: 1.2rem; margin-top: auto;">
+        <div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem;">
+          <div style="width: 38px; height: 38px; border-radius: 50%; background: var(--caramel); color: #120904; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 0.88rem;">DM</div>
+          <div>
+            <strong style="font-size: 0.88rem; display: block; color: var(--cream);">David Miller</strong>
+            <span style="font-size: 0.75rem; color: var(--caramel);">Store Manager</span>
+          </div>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <a href="index.html" class="btn btn-secondary btn-sm" style="flex: 1;" title="View Live Shop"><i class="fas fa-store"></i> Shop</a>
+          <button class="btn btn-outline-gold btn-sm" style="flex: 1;" onclick="handleAdminLogout()"><i class="fas fa-power-off"></i> Exit</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CONTENT AREA -->
+    <main class="admin-content">
+      
+      <!-- TOP STATUS BAR -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid rgba(212,155,106,0.15); padding-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2 id="admin-section-heading" style="font-size: 1.8rem; margin: 0;">Dashboard Overview</h2>
+          <span style="font-size: 0.85rem; color: var(--cream-muted);">Live database synchronization • 9 MySQL Tables Connected</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <span class="promo-badge" style="margin: 0; background: rgba(52,211,153,0.15); color: var(--success-green); border: 1px solid var(--success-green);">
+            <i class="fas fa-circle" style="font-size: 0.55rem; vertical-align: middle;"></i> Roastery Active
+          </span>
+          <span style="font-size: 0.85rem; color: var(--cream-muted);"><i class="far fa-clock"></i> 108 Pike St • Seattle</span>
+        </div>
+      </div>
+
+      <!-- ================================================================ -->
+      <!-- SECTION 1: OVERVIEW DASHBOARD -->
+      <!-- ================================================================ -->
+      <div id="section-overview" class="admin-tab-section">
+        <!-- 4 KPI SUMMARY CARDS -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+          <div class="kpi-card">
+            <span style="font-size: 0.8rem; color: var(--cream-muted); text-transform: uppercase; font-weight: 700;">Total Revenue</span>
+            <div id="kpi-revenue" style="font-size: 2.2rem; font-weight: 800; color: var(--gold); margin: 0.4rem 0;">$1,842.50</div>
+            <span style="font-size: 0.78rem; color: var(--success-green);"><i class="fas fa-arrow-trend-up"></i> +14.2% vs last week</span>
+          </div>
+
+          <div class="kpi-card">
+            <span style="font-size: 0.8rem; color: var(--cream-muted); text-transform: uppercase; font-weight: 700;">Total Orders</span>
+            <div id="kpi-orders-count" style="font-size: 2.2rem; font-weight: 800; color: var(--caramel); margin: 0.4rem 0;">42</div>
+            <span style="font-size: 0.78rem; color: var(--cream-soft);"><i class="fas fa-coffee"></i> 3 in brewing prep</span>
+          </div>
+
+          <div class="kpi-card">
+            <span style="font-size: 0.8rem; color: var(--cream-muted); text-transform: uppercase; font-weight: 700;">Active Customers</span>
+            <div id="kpi-customers-count" style="font-size: 2.2rem; font-weight: 800; color: var(--cream); margin: 0.4rem 0;">18</div>
+            <span style="font-size: 0.78rem; color: var(--gold);"><i class="fas fa-award"></i> 8 Gold VIP Members</span>
+          </div>
+
+          <div class="kpi-card">
+            <span style="font-size: 0.8rem; color: var(--cream-muted); text-transform: uppercase; font-weight: 700;">Customer Rating</span>
+            <div id="kpi-rating" style="font-size: 2.2rem; font-weight: 800; color: var(--gold); margin: 0.4rem 0;">4.9 ★</div>
+            <span style="font-size: 0.78rem; color: var(--cream-muted);">98% Approval rating</span>
+          </div>
+        </div>
+
+        <!-- REVENUE CHART & RECENT ACTIVITY -->
+        <div style="display: grid; grid-template-columns: 1.8fr 1fr; gap: 2rem; margin-bottom: 2.5rem;">
+          <div class="glass-panel" style="padding: 1.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
+              <h3 style="font-size: 1.2rem; margin: 0;">Weekly Revenue Performance</h3>
+              <span style="font-size: 0.78rem; color: var(--caramel);">Mon – Sun</span>
+            </div>
+            <!-- Canvas Graph -->
+            <canvas id="revenue-chart" height="150" style="width: 100%; border-radius: var(--radius-sm);"></canvas>
+          </div>
+
+          <div class="glass-panel" style="padding: 1.8rem;">
+            <h3 style="font-size: 1.2rem; margin-bottom: 1.2rem;">Live Kitchen Queue</h3>
+            <div id="overview-live-queue" style="display: flex; flex-direction: column; gap: 0.8rem;">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================ -->
+      <!-- SECTION 2: ORDERS MANAGEMENT -->
+      <!-- ================================================================ -->
+      <div id="section-orders" class="admin-tab-section" style="display: none;">
+        <div class="glass-panel" style="padding: 1.8rem;">
+          <!-- Order Filter Tabs -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button class="btn btn-sm btn-primary" onclick="filterAdminOrders('All', this)">All Orders</button>
+              <button class="btn btn-sm btn-secondary" onclick="filterAdminOrders('Pending', this)">Pending</button>
+              <button class="btn btn-sm btn-secondary" onclick="filterAdminOrders('Preparing', this)">Preparing</button>
+              <button class="btn btn-sm btn-secondary" onclick="filterAdminOrders('Ready', this)">Ready</button>
+              <button class="btn btn-sm btn-secondary" onclick="filterAdminOrders('Delivered', this)">Delivered</button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order #</th>
+                  <th>Customer</th>
+                  <th>Items Summary</th>
+                  <th>Total</th>
+                  <th>Type</th>
+                  <th>Status (Changeable)</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="admin-orders-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================ -->
+      <!-- SECTION 3: MENU & CATEGORY MANAGEMENT -->
+      <!-- ================================================================ -->
+      <div id="section-menu" class="admin-tab-section" style="display: none;">
+        <div class="glass-panel" style="padding: 1.8rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+            <h3 style="font-size: 1.25rem; margin: 0;">Beverage & Food Catalog</h3>
+            <button class="btn btn-primary btn-sm" onclick="openAddMenuItemModal()"><i class="fas fa-plus"></i> Add New Product</button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Roast</th>
+                  <th>Calories</th>
+                  <th>Available</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-menu-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================ -->
+      <!-- SECTION 4: CUSTOMER REVIEWS MANAGEMENT -->
+      <!-- ================================================================ -->
+      <div id="section-reviews" class="admin-tab-section" style="display: none;">
+        <div class="glass-panel" style="padding: 1.8rem;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem;">Moderation & Feedback</h3>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Rating</th>
+                  <th>Category</th>
+                  <th>Review Snippet</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-reviews-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================ -->
+      <!-- SECTION 5: STAFF & EMPLOYEE MANAGEMENT -->
+      <!-- ================================================================ -->
+      <div id="section-employees" class="admin-tab-section" style="display: none;">
+        <div class="glass-panel" style="padding: 1.8rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+            <h3 style="font-size: 1.25rem; margin: 0;">Employee Scheduling & Shifts</h3>
+            <button class="btn btn-primary btn-sm" onclick="openAddEmployeeModal()"><i class="fas fa-user-plus"></i> Add Staff Member</button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Employee Name</th>
+                  <th>Role</th>
+                  <th>Shift Schedule</th>
+                  <th>Status</th>
+                  <th>Contact</th>
+                  <th>Rate</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-employees-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================ -->
+      <!-- SECTION 6: CUSTOMERS & PAYMENT LOG -->
+      <!-- ================================================================ -->
+      <div id="section-payments" class="admin-tab-section" style="display: none;">
+        <div class="glass-panel" style="padding: 1.8rem; margin-bottom: 2rem;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 1.2rem;">Registered Customer Accounts</h3>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Customer</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Loyalty Beans</th>
+                  <th>Shipping Address</th>
+                </tr>
+              </thead>
+              <tbody id="admin-customers-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="glass-panel" style="padding: 1.8rem;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 1.2rem;">Transaction & Payment Ledger</h3>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Txn Code</th>
+                  <th>Order #</th>
+                  <th>Method</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Date & Time</th>
+                </tr>
+              </thead>
+              <tbody id="admin-payments-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ADD PRODUCT MODAL -->
+  <div id="add-menu-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size: 1.3rem;">Add New Beverage / Item</h3>
+        <button class="modal-close-btn" onclick="closeAddMenuItemModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="handleCreateProduct(event)">
+          <div class="form-group">
+            <label class="form-label">Product Name *</label>
+            <input type="text" id="p-name" required class="form-control" placeholder="e.g. Vanilla Infused Cold Brew">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Category *</label>
+              <select id="p-category" class="form-control">
+                <option value="1">Hot Coffee</option>
+                <option value="2">Cold Drinks</option>
+                <option value="3">Artisan Teas</option>
+                <option value="4">Artisanal Snacks</option>
+                <option value="5">Gourmet Desserts</option>
+                <option value="6">Whole Bean Reserves</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Price ($) *</label>
+              <input type="number" step="0.05" id="p-price" required class="form-control" placeholder="6.50">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Image URL (Unsplash or local)</label>
+            <input type="url" id="p-image" required class="form-control" value="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Roast Level</label>
+              <select id="p-roast" class="form-control">
+                <option value="Light">Light</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Dark">Dark</option>
+                <option value="N/A">N/A (Pastry / Tea)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Calories</label>
+              <input type="number" id="p-calories" class="form-control" value="150">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Flavor Notes</label>
+            <input type="text" id="p-flavors" class="form-control" placeholder="Bourbon Vanilla, Caramel, Hazelnut">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description *</label>
+            <textarea id="p-desc" required rows="3" class="form-control" placeholder="Detailed tasting notes and preparation method..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Create Product</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD EMPLOYEE MODAL -->
+  <div id="add-employee-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size: 1.3rem;">Onboard New Employee</h3>
+        <button class="modal-close-btn" onclick="closeAddEmployeeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="handleCreateEmployee(event)">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input type="text" id="emp-name" required class="form-control" placeholder="Jordan Lee">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Email Address *</label>
+              <input type="email" id="emp-email" required class="form-control" placeholder="jordan@coffeecorner.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone *</label>
+              <input type="tel" id="emp-phone" required class="form-control" placeholder="+1 (555) 349-1100">
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Role</label>
+              <select id="emp-role" class="form-control">
+                <option value="Senior Barista">Senior Barista</option>
+                <option value="Head Barista">Head Barista</option>
+                <option value="Pastry Chef">Pastry Chef</option>
+                <option value="Cashier">Cashier</option>
+                <option value="Store Manager">Store Manager</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Shift</label>
+              <select id="emp-shift" class="form-control">
+                <option value="Morning Shift (06:00 - 14:00)">Morning Shift (06:00 - 14:00)</option>
+                <option value="Evening Shift (14:00 - 22:00)">Evening Shift (14:00 - 22:00)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Hourly Rate ($)</label>
+            <input type="number" step="0.50" id="emp-rate" class="form-control" value="24.00">
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Add Staff Member</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <script>
+    let activeOrderFilter = 'All';
+
+    // ------------------------------------------------------------------------
+    // AUTH CHECK
+    // ------------------------------------------------------------------------
+    function checkAdminAuth() {
+      const isAuth = window.DB.isAdminLoggedIn();
+      const loginScreen = document.getElementById('admin-login-screen');
+      const mainScreen = document.getElementById('admin-main-screen');
+
+      if (isAuth) {
+        loginScreen.style.display = 'none';
+        mainScreen.style.display = 'grid';
+        loadAdminData();
+      } else {
+        loginScreen.style.display = 'flex';
+        mainScreen.style.display = 'none';
+      }
+    }
+
+    function handleAdminLoginSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('admin-input-email').value;
+      const pass = document.getElementById('admin-input-pass').value;
+
+      const res = window.DB.adminLogin(email, pass);
+      if (res.success) {
+        showToast('Authenticated as Store Administrator.');
+        checkAdminAuth();
+      } else {
+        showToast(res.message, 'error');
+      }
+    }
+
+    function handleAdminLogout() {
+      window.DB.adminLogout();
+      showToast('Logged out of Admin Portal.');
+      checkAdminAuth();
+    }
+
+    // ------------------------------------------------------------------------
+    // SECTION NAVIGATION
+    // ------------------------------------------------------------------------
+    function switchAdminSection(sectionName) {
+      const sections = document.querySelectorAll('.admin-tab-section');
+      sections.forEach(s => s.style.display = 'none');
+
+      const navItems = document.querySelectorAll('.admin-nav-item');
+      navItems.forEach(n => n.classList.remove('active'));
+
+      const targetSection = document.getElementById(`section-${sectionName}`);
+      if (targetSection) targetSection.style.display = 'block';
+
+      const heading = document.getElementById('admin-section-heading');
+      const titles = {
+        overview: 'Dashboard Overview & Sales Analytics',
+        orders: 'Live Orders & Ticket Fulfillment',
+        menu: 'Menu & Category Inventory',
+        reviews: 'Customer Reviews Moderation',
+        employees: 'Staff Scheduling & Shift Rosters',
+        payments: 'Customers & Financial Transactions'
+      };
+      if (heading) heading.textContent = titles[sectionName] || 'Admin Portal';
+
+      // Highlight active nav
+      event.currentTarget.classList.add('active');
+    }
+
+    // ------------------------------------------------------------------------
+    // LOAD & RENDER DATA
+    // ------------------------------------------------------------------------
+    function loadAdminData() {
+      renderOverview();
+      renderOrdersTable();
+      renderMenuTable();
+      renderReviewsTable();
+      renderEmployeesTable();
+      renderCustomersAndPayments();
+    }
+
+    function renderOverview() {
+      const orders = window.DB.getOrders();
+      const customers = window.DB.getCustomers();
+      const reviews = window.DB.getReviews();
+
+      const totalRev = orders.reduce((sum, o) => sum + o.total_amount, 0);
+      document.getElementById('kpi-revenue').textContent = `$${totalRev.toFixed(2)}`;
+      document.getElementById('kpi-orders-count').textContent = orders.length;
+      document.getElementById('kpi-customers-count').textContent = customers.length;
+
+      // Draw canvas weekly trend graph
+      drawWeeklySalesChart();
+
+      // Live kitchen queue
+      const queueContainer = document.getElementById('overview-live-queue');
+      const activeQueue = orders.filter(o => o.order_status === 'Pending' || o.order_status === 'Preparing');
+      if (activeQueue.length === 0) {
+        queueContainer.innerHTML = `<p style="color:var(--cream-muted); font-size:0.85rem;">All current orders have been prepared!</p>`;
+      } else {
+        queueContainer.innerHTML = activeQueue.map(o => `
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(212,155,106,0.18); border-radius: var(--radius-md); padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong style="color: var(--cream); font-size: 0.9rem;">#${o.order_number} (${o.customer_name})</strong>
+              <div style="font-size: 0.75rem; color: var(--caramel);">${o.items.map(i=>`${i.quantity}x ${i.item_name}`).join(', ')}</div>
+            </div>
+            <button class="btn btn-primary btn-sm" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="quickStatusChange(${o.order_id}, 'Ready')">Mark Ready</button>
+          </div>
+        `).join('');
+      }
+    }
+
+    function drawWeeklySalesChart() {
+      const canvas = document.getElementById('revenue-chart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width = canvas.parentElement.clientWidth;
+      const h = canvas.height = 150;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      const data = [210, 290, 340, 420, 580, 690, 540];
+      const max = 800;
+
+      const barWidth = (w / days.length) * 0.45;
+      const spacing = w / days.length;
+
+      days.forEach((day, i) => {
+        const val = data[i];
+        const barHeight = (val / max) * (h - 40);
+        const x = i * spacing + spacing / 2 - barWidth / 2;
+        const y = h - 25 - barHeight;
+
+        // Gradient for bars
+        const grad = ctx.createLinearGradient(0, y, 0, h - 25);
+        grad.addColorStop(0, '#e5b967');
+        grad.addColorStop(1, '#a66530');
+
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.roundRect(x, y, barWidth, barHeight, [4, 4, 0, 0]);
+        ctx.fill();
+
+        // Labels
+        ctx.fillStyle = '#bdaea0';
+        ctx.font = '11px Plus Jakarta Sans, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(day, x + barWidth / 2, h - 8);
+      });
+    }
+
+    // ------------------------------------------------------------------------
+    // ORDERS TABLE & STATUS CHANGE
+    // ------------------------------------------------------------------------
+    function filterAdminOrders(status, btn) {
+      activeOrderFilter = status;
+      const buttons = btn.parentElement.querySelectorAll('button');
+      buttons.forEach(b => {
+        b.className = 'btn btn-sm btn-secondary';
+      });
+      btn.className = 'btn btn-sm btn-primary';
+      renderOrdersTable();
+    }
+
+    function renderOrdersTable() {
+      let orders = window.DB.getOrders();
+      if (activeOrderFilter !== 'All') {
+        orders = orders.filter(o => o.order_status === activeOrderFilter);
+      }
+
+      const tbody = document.getElementById('admin-orders-table-body');
+      if (!tbody) return;
+
+      if (orders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--cream-muted);">No orders found for filter "${activeOrderFilter}".</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = orders.map(o => `
+        <tr>
+          <td><strong style="color:var(--gold);">#${o.order_number}</strong></td>
+          <td>
+            <div style="font-weight:600; color:var(--cream);">${o.customer_name}</div>
+            <div style="font-size:0.75rem; color:var(--cream-muted);">${o.phone || 'N/A'}</div>
+          </td>
+          <td>
+            <div style="font-size:0.85rem;">${o.items.map(i => `${i.quantity}x ${i.item_name}`).join(', ')}</div>
+            ${o.special_instructions ? `<div style="font-size:0.72rem; color:var(--caramel);">Note: "${o.special_instructions}"</div>` : ''}
+          </td>
+          <td><strong style="color:var(--cream);">$${o.total_amount.toFixed(2)}</strong></td>
+          <td><span class="tag-pill">${o.delivery_type || 'Delivery'}</span></td>
+          <td>
+            <select class="status-select" onchange="handleOrderStatusChange(${o.order_id}, this.value)">
+              <option value="Pending" ${o.order_status === 'Pending' ? 'selected' : ''}>Pending</option>
+              <option value="Preparing" ${o.order_status === 'Preparing' ? 'selected' : ''}>Preparing</option>
+              <option value="Ready" ${o.order_status === 'Ready' ? 'selected' : ''}>Ready</option>
+              <option value="Delivered" ${o.order_status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+              <option value="Cancelled" ${o.order_status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+            </select>
+          </td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick="alert('Order Receipt Ticket:\\n\\nOrder: #${o.order_number}\\nCustomer: ${o.customer_name}\\nTotal: $${o.total_amount.toFixed(2)}')">
+              <i class="fas fa-print"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function handleOrderStatusChange(orderId, newStatus) {
+      window.DB.updateOrderStatus(orderId, newStatus);
+      showToast(`Order status updated to: ${newStatus}`);
+      loadAdminData();
+    }
+
+    function quickStatusChange(orderId, newStatus) {
+      handleOrderStatusChange(orderId, newStatus);
+    }
+
+    // ------------------------------------------------------------------------
+    // MENU CATALOG MANAGEMENT
+    // ------------------------------------------------------------------------
+    function renderMenuTable() {
+      const items = window.DB.getMenuItems();
+      const categories = window.DB.getCategories();
+      const tbody = document.getElementById('admin-menu-table-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = items.map(item => {
+        const cat = categories.find(c => c.category_id === item.category_id);
+        const catName = cat ? cat.name : 'Coffee';
+
+        return `
+          <tr>
+            <td>
+              <div style="display: flex; align-items: center; gap: 0.8rem;">
+                <img src="${item.image_url}" alt="${item.name}" style="width: 40px; height: 40px; border-radius: 6px; object-fit: cover;">
+                <div>
+                  <strong style="color: var(--cream); font-size: 0.95rem;">${item.name}</strong>
+                  ${item.is_bestseller ? '<span style="font-size:0.7rem; color:var(--gold); display:block;">★ Bestseller</span>' : ''}
+                </div>
+              </div>
+            </td>
+            <td><span class="tag-pill">${catName}</span></td>
+            <td><strong style="color: var(--gold);">$${item.price.toFixed(2)}</strong></td>
+            <td>${item.roast_level}</td>
+            <td>${item.calories} Cal</td>
+            <td>
+              <input type="checkbox" ${item.is_available ? 'checked' : ''} style="accent-color: var(--caramel); width: 18px; height: 18px;" onchange="toggleItemAvailability(${item.item_id}, this.checked)">
+            </td>
+            <td>
+              <button class="btn btn-secondary btn-sm" style="color: var(--danger); padding: 0.3rem 0.6rem;" onclick="handleDeleteProduct(${item.item_id})">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function toggleItemAvailability(itemId, isAvail) {
+      window.DB.updateMenuItem(itemId, { is_available: isAvail });
+      showToast(`Product inventory availability updated.`);
+    }
+
+    function handleDeleteProduct(itemId) {
+      if (confirm('Delete this product from active menu?')) {
+        window.DB.deleteMenuItem(itemId);
+        showToast('Product removed.');
+        renderMenuTable();
+      }
+    }
+
+    function openAddMenuItemModal() {
+      document.getElementById('add-menu-modal').classList.add('active');
+    }
+    function closeAddMenuItemModal() {
+      document.getElementById('add-menu-modal').classList.remove('active');
+    }
+
+    function handleCreateProduct(e) {
+      e.preventDefault();
+      const name = document.getElementById('p-name').value;
+      const category_id = parseInt(document.getElementById('p-category').value, 10);
+      const price = parseFloat(document.getElementById('p-price').value);
+      const image_url = document.getElementById('p-image').value;
+      const roast_level = document.getElementById('p-roast').value;
+      const calories = parseInt(document.getElementById('p-calories').value, 10);
+      const flavor_notes = document.getElementById('p-flavors').value;
+      const description = document.getElementById('p-desc').value;
+
+      window.DB.addMenuItem({
+        name,
+        category_id,
+        price,
+        image_url,
+        roast_level,
+        calories,
+        flavor_notes,
+        description,
+        is_available: true,
+        is_featured: false,
+        is_bestseller: false
+      });
+
+      showToast(`Product "${name}" added to menu!`);
+      closeAddMenuItemModal();
+      e.target.reset();
+      renderMenuTable();
+    }
+
+    // ------------------------------------------------------------------------
+    // REVIEWS MODERATION
+    // ------------------------------------------------------------------------
+    function renderReviewsTable() {
+      const reviews = window.DB.getReviews();
+      const tbody = document.getElementById('admin-reviews-table-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = reviews.map(r => `
+        <tr>
+          <td><strong style="color:var(--cream);">${r.customer_name}</strong></td>
+          <td><span style="color:var(--gold); font-weight:700;">${r.rating} ★</span></td>
+          <td><span class="tag-pill">${r.category}</span></td>
+          <td style="max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">"${r.review_text}"</td>
+          <td>
+            <span style="background:rgba(0,0,0,0.3); border:1px solid ${r.status==='Approved'?'var(--success-green)':'var(--danger)'}; color:${r.status==='Approved'?'var(--success-green)':'var(--danger)'}; padding:0.2rem 0.6rem; border-radius:9999px; font-size:0.75rem;">
+              ${r.status}
+            </span>
+          </td>
+          <td>
+            <div style="display:flex; gap:0.4rem;">
+              <button class="btn btn-secondary btn-sm" onclick="moderateReview(${r.review_id}, 'Approved')" title="Approve"><i class="fas fa-check text-success-green"></i></button>
+              <button class="btn btn-secondary btn-sm" onclick="moderateReview(${r.review_id}, 'Rejected')" title="Reject"><i class="fas fa-times text-danger"></i></button>
+              <button class="btn btn-secondary btn-sm" onclick="deleteReviewItem(${r.review_id})" title="Delete"><i class="fas fa-trash-alt"></i></button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function moderateReview(id, status) {
+      window.DB.updateReviewStatus(id, status);
+      showToast(`Review marked as ${status}.`);
+      renderReviewsTable();
+    }
+
+    function deleteReviewItem(id) {
+      if (confirm('Delete review permanently?')) {
+        window.DB.deleteReview(id);
+        showToast('Review deleted.');
+        renderReviewsTable();
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // EMPLOYEE MANAGEMENT
+    // ------------------------------------------------------------------------
+    function renderEmployeesTable() {
+      const employees = window.DB.getEmployees();
+      const tbody = document.getElementById('admin-employees-table-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = employees.map(emp => `
+        <tr>
+          <td>
+            <strong style="color:var(--cream);">${emp.full_name}</strong>
+            <div style="font-size:0.75rem; color:var(--cream-muted);">Hired: ${emp.hire_date}</div>
+          </td>
+          <td><span class="tag-pill" style="border-color:var(--caramel); color:var(--caramel);">${emp.role}</span></td>
+          <td><span style="font-size:0.85rem;"><i class="far fa-clock"></i> ${emp.shift}</span></td>
+          <td>
+            <span style="background:rgba(52,211,153,0.15); border:1px solid var(--success-green); color:var(--success-green); padding:0.2rem 0.5rem; border-radius:9999px; font-size:0.75rem;">
+              ${emp.status}
+            </span>
+          </td>
+          <td><span style="font-size:0.82rem; color:var(--cream-muted);">${emp.email}</span></td>
+          <td><strong>$${emp.hourly_rate.toFixed(2)}/hr</strong></td>
+          <td>
+            <button class="btn btn-secondary btn-sm" style="color:var(--danger);" onclick="deleteEmployeeItem(${emp.employee_id})">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function openAddEmployeeModal() {
+      document.getElementById('add-employee-modal').classList.add('active');
+    }
+    function closeAddEmployeeModal() {
+      document.getElementById('add-employee-modal').classList.remove('active');
+    }
+
+    function handleCreateEmployee(e) {
+      e.preventDefault();
+      const fullName = document.getElementById('emp-name').value;
+      const email = document.getElementById('emp-email').value;
+      const phone = document.getElementById('emp-phone').value;
+      const role = document.getElementById('emp-role').value;
+      const shift = document.getElementById('emp-shift').value;
+      const hourlyRate = document.getElementById('emp-rate').value;
+
+      window.DB.addEmployee({ fullName, email, phone, role, shift, hourlyRate });
+      showToast(`Employee "${fullName}" added to schedule!`);
+      closeAddEmployeeModal();
+      e.target.reset();
+      renderEmployeesTable();
+    }
+
+    function deleteEmployeeItem(id) {
+      if (confirm('Remove this employee from roster?')) {
+        window.DB.deleteEmployee(id);
+        showToast('Employee removed.');
+        renderEmployeesTable();
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // CUSTOMERS & PAYMENTS TABLE
+    // ------------------------------------------------------------------------
+    function renderCustomersAndPayments() {
+      const customers = window.DB.getCustomers();
+      const payments = window.DB.getPayments();
+
+      const custBody = document.getElementById('admin-customers-table-body');
+      if (custBody) {
+        custBody.innerHTML = customers.map(c => `
+          <tr>
+            <td>#${c.customer_id}</td>
+            <td><strong style="color:var(--cream);">${c.full_name}</strong></td>
+            <td>${c.email}</td>
+            <td>${c.phone || 'N/A'}</td>
+            <td><strong style="color:var(--gold);">${c.loyalty_points || 0} Beans</strong></td>
+            <td style="font-size:0.82rem; color:var(--cream-muted);">${c.address || 'In-store Pickup'}</td>
+          </tr>
+        `).join('');
+      }
+
+      const payBody = document.getElementById('admin-payments-table-body');
+      if (payBody) {
+        payBody.innerHTML = payments.map(p => `
+          <tr>
+            <td><span style="font-family:monospace; color:var(--caramel);">${p.transaction_code}</span></td>
+            <td><strong style="color:var(--cream);">#${p.order_number}</strong></td>
+            <td><i class="fas fa-credit-card text-caramel"></i> ${p.payment_method}</td>
+            <td><strong style="color:var(--gold);">$${p.amount.toFixed(2)}</strong></td>
+            <td>
+              <span style="background:rgba(52,211,153,0.15); border:1px solid var(--success-green); color:var(--success-green); padding:0.2rem 0.5rem; border-radius:9999px; font-size:0.75rem;">
+                ${p.payment_status}
+              </span>
+            </td>
+            <td style="font-size:0.82rem; color:var(--cream-muted);">${new Date(p.payment_date).toLocaleString()}</td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      checkAdminAuth();
+    });
+  </script>
+</body>
+</html>
